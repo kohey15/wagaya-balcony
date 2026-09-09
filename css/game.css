@@ -124,9 +124,9 @@
   transform: translateX(-50%);
 }
 .char-family {
-  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置 */
+  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置（少し上寄り） */
   left: 50%;
-  bottom: 0%;
+  bottom: 6%;
   width: 82%;
   max-width: 340px;
   aspect-ratio: 1000 / 833;
@@ -257,7 +257,8 @@
 .plant-select-overlay {
   position: absolute;
   inset: 0;
-  z-index: 200;
+  /* 鉢のz-index（最大299程度）より確実に高くし、常に最前面に表示する */
+  z-index: 1000;
   background: rgba(30, 40, 25, 0.55);
   display: flex;
   align-items: flex-end;
