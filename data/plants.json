@@ -5,7 +5,6 @@
     "starter": true,
     "description": "シャキシャキとした歯ざわりが人気の葉野菜。すでに大きく育った株なので、届いたその日から収穫できます。",
     "image": "assets/plants/mizuna.webp",
-    "emojiFallback": "🥬",
     "productUrl": "https://example.com/placeholder-product/mizuna",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -20,7 +19,6 @@
     "starter": false,
     "description": "栄養たっぷりの緑黄色野菜。おひたしや炒め物にも大活躍する食卓の定番です。",
     "image": "assets/plants/hourensou.webp",
-    "emojiFallback": "🍃",
     "productUrl": "https://example.com/placeholder-product/hourensou",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -35,7 +33,6 @@
     "starter": false,
     "description": "赤くつやつやした実がなる鉢植え。甘い香りがして、収穫がいちばん楽しみになる一鉢です。",
     "image": "assets/plants/ichigo.webp",
-    "emojiFallback": "🍓",
     "productUrl": "https://example.com/placeholder-product/ichigo",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -50,7 +47,6 @@
     "starter": false,
     "description": "茎まで甘くやわらかいブロッコリー。切ってもまた新しい茎が伸びてくる、育てがいのある一鉢です。",
     "image": "assets/plants/kukibrokkori.webp",
-    "emojiFallback": "🥦",
     "productUrl": "https://example.com/placeholder-product/kukibrokkori",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -65,7 +61,6 @@
     "starter": false,
     "description": "葉の表面がキラキラ光る、少ししょっぱい不思議な野菜。見た目も味も楽しめる変わり種です。",
     "image": "assets/plants/iceplant.webp",
-    "emojiFallback": "🌵",
     "productUrl": "https://example.com/placeholder-product/iceplant",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -80,7 +75,6 @@
     "starter": false,
     "description": "香り豊かなハーブ。摘めば摘むほど、また新しい葉が茂ります。",
     "image": "assets/plants/basil.webp",
-    "emojiFallback": "🌿",
     "productUrl": "https://example.com/placeholder-product/basil",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
@@ -95,7 +89,6 @@
     "starter": false,
     "description": "彩りにも便利な万能ハーブ。少し摘み取るだけで料理がぐっと華やかになります。",
     "image": "assets/plants/parsley.webp",
-    "emojiFallback": "☘️",
     "productUrl": "https://example.com/placeholder-product/parsley",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [

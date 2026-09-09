@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>わが家のベランダ | 栽培のコツ</title>
-<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/common.css?v=2">
 <style>
   .page {
     padding: 24px 20px 40px;
@@ -51,10 +51,7 @@
     height: 48px;
     flex: 0 0 auto;
     border-radius: 10px;
-    background: var(--color-bg);
-  }
-  .tip-thumb.sprite.img-error::before {
-    font-size: 28px;
+    background: linear-gradient(135deg, var(--color-border), var(--color-bg));
   }
   .tip-info h2 {
     margin: 0 0 4px;
@@ -80,7 +77,7 @@
 <body>
   <div class="app-frame">
     <div class="page">
-      <h1>🌿 栽培のコツ図鑑</h1>
+      <h1>栽培のコツ図鑑</h1>
       <p class="progress-note" id="progressNote">読み込み中…</p>
       <div class="tip-grid" id="tipGrid"></div>
       <a class="back-link" href="game.html">← ベランダにもどる</a>
@@ -115,7 +112,7 @@
 
           if (isComplete) {
             progressNote.innerHTML =
-              '<div class="complete-banner">🎉 全' + allIds.length + '種類コンプリート！育て方のコツが読めるようになったよ。</div>';
+              '<div class="complete-banner">全' + allIds.length + '種類コンプリート！育て方のコツが読めるようになったよ。</div>';
           } else {
             progressNote.textContent =
               "すべての植物を集めると、育て方のコツが読めるようになります（" + owned.length + " / " + allIds.length + " 種類）";
@@ -130,7 +127,7 @@
                 // コンプリート前は、収穫済みかどうかのチェックリストのみ表示（コツ本文は隠す）
                 return (
                   '<div class="tip-card ' + (hasIt ? "" : "locked") + '">' +
-                  '<div class="tip-thumb sprite" data-emoji="' + (hasIt ? p.emojiFallback : "🔒") + '">' +
+                  '<div class="tip-thumb sprite">' +
                   (hasIt
                     ? '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">'
                     : "") +
@@ -145,7 +142,7 @@
 
               return (
                 '<div class="tip-card">' +
-                '<div class="tip-thumb sprite" data-emoji="' + p.emojiFallback + '">' +
+                '<div class="tip-thumb sprite">' +
                 '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
                 "</div>" +
                 '<div class="tip-info">' +

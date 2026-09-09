@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>わが家のベランダ</title>
-<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/common.css?v=2">
 <style>
   .title-screen {
     display: flex;
@@ -34,9 +34,7 @@
     width: 100%;
     height: 100%;
     display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 4.5rem;
+    background: linear-gradient(135deg, var(--color-border), var(--color-bg));
   }
   .title-logo {
     font-size: 2rem;
@@ -84,7 +82,7 @@
           alt="ベランダで並ぶ父・母・娘と鉢植えの野菜たち"
           onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';"
         >
-        <div class="hero-fallback" id="heroFallback" aria-hidden="true">🪴</div>
+        <div class="hero-fallback" id="heroFallback" aria-hidden="true"></div>
       </div>
       <h1 class="title-logo">わが家のベランダ
         <small>収穫からはじまる、親子の毎日</small>

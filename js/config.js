@@ -16,25 +16,25 @@ window.CONFIG = (function () {
 
   // 鉢の固定スロット位置（ベランダ舞台に対する割合位置）。
   // slot01〜slot10 まで将来追加可能。
-  // 中央下は父と娘のイラスト（char-family）が占めるため、鉢は両脇と
-  // 手前の隙間に配置し、顔や体に重ならないようにしている。
+  // キャラクターとの重なり順はランダム（前後どちらにもなる）なので、
+  // 鉢は見栄えを優先して大きめに配置している。
   var SLOT_POSITIONS = {
-    slot01: { left: "44%", bottom: "0%", width: "17%" },
-    slot02: { left: "13%", bottom: "3%", width: "24%" },
-    slot03: { left: "87%", bottom: "3%", width: "24%" },
-    slot04: { left: "8%", bottom: "24%", width: "18%" },
-    slot05: { left: "92%", bottom: "24%", width: "18%" },
-    slot06: { left: "22%", bottom: "42%", width: "16%" },
-    slot07: { left: "78%", bottom: "42%", width: "16%" },
-    slot08: { left: "50%", bottom: "56%", width: "16%" },
-    slot09: { left: "35%", bottom: "58%", width: "14%" },
-    slot10: { left: "65%", bottom: "58%", width: "14%" }
+    slot01: { left: "44%", bottom: "0%", width: "26%" },
+    slot02: { left: "13%", bottom: "3%", width: "32%" },
+    slot03: { left: "87%", bottom: "3%", width: "32%" },
+    slot04: { left: "8%", bottom: "24%", width: "26%" },
+    slot05: { left: "92%", bottom: "24%", width: "26%" },
+    slot06: { left: "22%", bottom: "42%", width: "24%" },
+    slot07: { left: "78%", bottom: "42%", width: "24%" },
+    slot08: { left: "50%", bottom: "56%", width: "22%" },
+    slot09: { left: "35%", bottom: "58%", width: "20%" },
+    slot10: { left: "65%", bottom: "58%", width: "20%" }
   };
 
   var CHARACTER_ASSETS = {
-    mother: { image: "assets/characters/mother.webp", emojiFallback: "👩" },
+    mother: { image: "assets/characters/mother.webp" },
     // 父と娘は、しゃがんで一緒にベランダを眺める1枚のイラストにまとめて表示する
-    family: { image: "assets/characters/family_cultivating.webp", emojiFallback: "👨‍👧" }
+    family: { image: "assets/characters/family_cultivating.webp" }
   };
 
   var BACKGROUND_ASSET = "assets/backgrounds/balcony.jpg";

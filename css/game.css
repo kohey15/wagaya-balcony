@@ -109,6 +109,8 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* 重なり順は各キャラクター要素ごとにJSでランダムなz-indexを付けて決める
+     （鉢の前になったり奥になったりする） */
 }
 .char {
   position: absolute;
@@ -116,25 +118,26 @@
 .char-mother {
   /* ドアの奥から顔を出したイメージで、鉢の邪魔にならない上部に配置 */
   left: 50%;
-  top: 3%;
-  width: 18%;
-  height: 30%;
+  top: 2%;
+  width: 26%;
+  height: 40%;
   transform: translateX(-50%);
 }
 .char-family {
-  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置し、鉢は前面に重ねて表示する */
+  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置 */
   left: 50%;
   bottom: 0%;
-  width: 62%;
-  max-width: 260px;
+  width: 82%;
+  max-width: 340px;
   aspect-ratio: 1000 / 833;
   height: auto;
   transform: translateX(-50%);
 }
-.char-sprite.img-error::before {
-  font-size: min(46px, 70%);
+/* 画像が用意できていないキャラクターは、色付きの箱で目立たせるのではなく
+   透明にして背景に馴染ませる（背景に穴が空いたように見えるのを防ぐ） */
+.char-sprite.img-error {
+  background: transparent;
 }
-
 .plant-layer {
   position: absolute;
   inset: 0;
@@ -144,26 +147,20 @@
   transform: translateX(-50%);
   aspect-ratio: 1 / 1;
 }
-.plant-sprite.img-error::before {
-  font-size: min(52px, 70%);
-}
 /* 元気が少ない時も枯れさせず、彩度をわずかに落とすだけの控えめな表現に留める */
 .plant-slot.genki-low .plant-sprite {
   filter: saturate(0.6) brightness(0.94);
   transition: filter 0.5s ease;
 }
+/* 元気の状態は絵文字ではなく、色の点（信号色に近いイメージ）で伝える */
 .genki-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  background: var(--color-surface);
+  top: 2px;
+  right: 2px;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-surface);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
@@ -262,22 +259,10 @@
   object-fit: contain;
   display: block;
 }
+/* 画像が読み込めない場合は、絵文字を使わずボタンの色だけで存在を示す */
 .action-fertilizer-image.img-error,
 .action-water-image.img-error {
-  position: relative;
-}
-.action-fertilizer-image.img-error::before {
-  content: "🌱";
-  font-size: 28px;
-}
-.action-water-image.img-error::before {
-  content: "💧";
-  font-size: 28px;
-}
-.action-nextday {
-  background: var(--color-primary);
-  color: #fff;
-  box-shadow: 0 3px 0 var(--color-primary-dark);
+  background: linear-gradient(135deg, var(--color-border), var(--color-bg));
 }
 
 /* ---- 鉢選択オーバーレイ（新しい植物を迎えるシーン） ---- */

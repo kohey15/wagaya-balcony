@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>わが家のベランダ | 植物図鑑</title>
-<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/common.css?v=2">
 <style>
   .page {
     padding: 24px 20px 40px;
@@ -29,9 +29,6 @@
     flex: 0 0 auto;
     border-radius: 12px;
     background: var(--color-bg);
-  }
-  .plant-card .thumb.sprite.img-error::before {
-    font-size: 40px;
   }
   .plant-card h2 {
     margin: 0 0 6px;
@@ -58,7 +55,7 @@
 <body>
   <div class="app-frame">
     <div class="page">
-      <h1>🌿 植物図鑑</h1>
+      <h1>植物図鑑</h1>
       <div id="plantList"></div>
       <a class="back-link" href="index.html">← タイトルへもどる</a>
     </div>
@@ -77,7 +74,7 @@
             var card = document.createElement("div");
             card.className = "plant-card";
             card.innerHTML =
-              '<div class="thumb sprite" data-emoji="' + p.emojiFallback + '">' +
+              '<div class="thumb sprite">' +
               '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
               "</div>" +
               '<div class="plant-info">' +

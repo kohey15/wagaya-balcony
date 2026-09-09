@@ -11,8 +11,8 @@ window.UI = (function () {
   var speakerLabel = { father: "父", mother: "母", daughter: "娘" };
 
   /**
-   * 画像が読み込めなかった場合に絵文字プレースホルダーへ差し替えるための
-   * <img> onerror ハンドラ。壊れた画像アイコンを見せないためのもの。
+   * 画像が読み込めなかった場合に、絵文字を使わないCSSだけのプレースホルダーへ
+   * 差し替えるための <img> onerror ハンドラ。壊れた画像アイコンを見せないためのもの。
    */
   function onImageError(img) {
     var wrap = img.parentElement;
@@ -21,12 +21,21 @@ window.UI = (function () {
   }
   window.__onImageError = onImageError; // インラインonerrorから呼び出すため
 
-  function spriteHtml(src, alt, emojiFallback, extraClass) {
+  function spriteHtml(src, alt, extraClass) {
     return (
-      '<div class="sprite ' + (extraClass || "") + '" data-emoji="' + emojiFallback + '">' +
+      '<div class="sprite ' + (extraClass || "") + '">' +
       '<img src="' + src + '" alt="' + alt + '" onerror="window.__onImageError(this)">' +
       "</div>"
     );
+  }
+
+  /**
+   * 重なり順を決めるz-index。植物は常にキャラクターより手前になるよう、
+   * 帯（レンジ）を分けたうえで、それぞれの中ではランダムにする。
+   */
+  function randomZIndex(band) {
+    var base = band === "plant" ? 200 : 1;
+    return String(base + Math.floor(Math.random() * 100));
   }
 
   function cacheDom() {
@@ -49,7 +58,6 @@ window.UI = (function () {
     el.waterImg = document.getElementById("waterImg");
     el.fertilizerBtn = document.getElementById("fertilizerBtn");
     el.fertilizerImg = document.getElementById("fertilizerImg");
-    el.nextDayBtn = document.getElementById("nextDayBtn");
     el.plantSelectOverlay = document.getElementById("plantSelectOverlay");
     el.plantSelectList = document.getElementById("plantSelectList");
   }
@@ -57,10 +65,13 @@ window.UI = (function () {
   function renderStaticLayers() {
     el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.BACKGROUND_ASSET + "')";
     var ch = window.CONFIG.CHARACTER_ASSETS;
-    el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", ch.mother.emojiFallback, "char-sprite");
-    el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", ch.family.emojiFallback, "char-sprite");
+    el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", "char-sprite");
+    el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", "char-sprite");
     el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
     el.waterImg.src = window.CONFIG.WATER_BUTTON_IMAGE;
+    // キャラクター同士の重なり順はランダム。ただし鉢は常にキャラクターより手前になる
+    el.charMother.style.zIndex = randomZIndex("char");
+    el.charFamily.style.zIndex = randomZIndex("char");
   }
 
   function renderPlantSlots() {
@@ -79,9 +90,11 @@ window.UI = (function () {
       wrap.style.left = pos.left;
       wrap.style.bottom = pos.bottom;
       wrap.style.width = pos.width;
+      // 鉢は常にキャラクターより手前。鉢同士の重なり順はランダムにする
+      wrap.style.zIndex = randomZIndex("plant");
 
       wrap.innerHTML =
-        spriteHtml(plantData.image, plantData.name, plantData.emojiFallback, "plant-sprite") +
+        spriteHtml(plantData.image, plantData.name, "plant-sprite") +
         '<div class="genki-badge" id="genki_' + slotId + '"></div>';
 
       el.plantLayer.appendChild(wrap);
@@ -96,7 +109,8 @@ window.UI = (function () {
       var slotEl = document.getElementById("slot_" + slotId);
       if (!badge) return;
       var view = window.Game.getGenkiView(slotId);
-      badge.textContent = view ? view.emoji : "";
+      // 絵文字は使わず、元気の状態を色の点で伝える
+      badge.style.backgroundColor = view ? view.color : "transparent";
       badge.title = view ? view.label : "";
       // 元気が少ない状態は、枯れさせる代わりに見た目をわずかに控えめにするだけに留める
       if (slotEl) {
@@ -124,11 +138,15 @@ window.UI = (function () {
     el.jishinFill.style.width = pct + "%";
   }
 
+  // 会話（収穫〜翌日への一連の演出）が流れている間は、水・肥料ボタンをロックする。
+  // 「翌日になった＝アイドル状態に戻った」タイミングで初めて解放する。
+  var sequenceLocked = false;
+
   function renderActionBar() {
     var state = window.Game.getState();
-    var careDisabled = state.careUsedToday;
+    var careDisabled = sequenceLocked || state.careUsedToday;
     // 水・肥料ともに画像そのものが見た目を兼ねるため、テキストの切り替えは不要。
-    // お世話済みかどうかは disabled による不透明度の変化（CSS）だけで伝える。
+    // ロック中／お世話済みかどうかは disabled による不透明度の変化（CSS）だけで伝える。
     [el.waterBtn, el.fertilizerBtn].forEach(function (btn) {
       btn.disabled = careDisabled;
     });
@@ -155,6 +173,9 @@ window.UI = (function () {
   }
 
   function showQueue(lines) {
+    // 会話が流れ始めたら、翌日になってアイドル状態に戻るまでボタンをロックする
+    sequenceLocked = true;
+    renderActionBar();
     dialogueQueue = (lines || []).slice();
     el.dialogueBox.classList.remove("idle");
     showNextLine();
@@ -162,6 +183,8 @@ window.UI = (function () {
 
   function showIdleLine() {
     applySceneBackground("stage");
+    sequenceLocked = false;
+    renderActionBar();
     var lines = window.Events.getIdle();
     var line = lines[0] || { speaker: "father", text: "" };
     renderLine(line);
@@ -260,17 +283,6 @@ window.UI = (function () {
     if (careResult.leveledUp || dayResult.leveledUp) playLevelUpEffect();
   }
 
-  function handleNextDay() {
-    var result = window.Game.nextDay();
-    refreshAll();
-    if (result.lines && result.lines.length > 0) {
-      showQueue(result.lines);
-    } else {
-      showIdleLine();
-    }
-    if (result.leveledUp) playLevelUpEffect();
-  }
-
   function handleReset() {
     var ok = window.confirm("最初からやり直しますか？（これまでの記録は消えます）");
     if (!ok) return;
@@ -306,7 +318,6 @@ window.UI = (function () {
   function wireEvents() {
     el.waterBtn.addEventListener("click", function () { handleCare("water"); });
     el.fertilizerBtn.addEventListener("click", function () { handleCare("fertilizer"); });
-    el.nextDayBtn.addEventListener("click", handleNextDay);
     el.dialogueBox.addEventListener("click", showNextLine);
     el.menuBtn.addEventListener("click", toggleMenu);
     el.resetBtn.addEventListener("click", handleReset);

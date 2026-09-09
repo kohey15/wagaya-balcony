@@ -106,15 +106,11 @@ a {
   object-fit: contain;
   display: block;
 }
-/* 画像が無い/読み込めない場合は絵文字で代替表示（壊れたアイコンを出さない） */
-.sprite.img-error::before {
-  content: attr(data-emoji);
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: min(48px, 60%);
+/* 画像が無い/読み込めない場合は、絵文字を使わずCSSだけの控えめな
+   プレースホルダーで代替する（壊れたアイコンを出さない） */
+.sprite.img-error {
+  background: linear-gradient(135deg, var(--color-border), var(--color-bg));
+  border-radius: 12px;
 }
 
 /* シンプルな下部固定シートのメニュー */
