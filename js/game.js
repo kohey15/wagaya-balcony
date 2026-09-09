@@ -43,6 +43,7 @@ window.Game = (function () {
       lastCareType: null,
       pendingPlantSelection: false,
       endingShown: false,
+      explainedPlantIds: [],
       plants: plantEntries
     };
   }
@@ -164,6 +165,8 @@ window.Game = (function () {
     var lines = window.Events.getNewPotWelcome().map(function (line) {
       return { speaker: line.speaker, text: line.text.replace("{name}", plantName) };
     });
+    // これで最後の1種を迎えた（＝全種コンプリート）なら、エンディングシーンを続けて挟む
+    lines = lines.concat(checkEndingAndGetLines());
 
     window.Save.store(state);
     return { ok: true, lines: lines, plantId: plantId };
@@ -200,19 +203,22 @@ window.Game = (function () {
   }
 
   /**
-   * 収穫した植物の中から1つを選び、一定確率で栄養素の豆知識シーンを差し込む。
+   * 収穫した植物の中から1つを選び、栄養素の豆知識シーンを毎ターン必ず差し込む。
    * 「ねえ、これってどんな栄養があるの？」→植物ごとの豆知識→「へえ！」という短い会話。
    * 母娘のキッチンイラストへ舞台が切り替わる。
+   * 一度でも解説を聞いた植物は explainedPlantIds に記録し、植物図鑑の購入リンク解放に使う。
    */
-  function maybeGetNutritionScene(harvestedPlantIds) {
+  function getNutritionScene(harvestedPlantIds) {
     if (harvestedPlantIds.length === 0) return [];
-    var chance = balance.nutritionSceneChance || 0;
-    if (Math.random() >= chance) return [];
 
     var plantId = harvestedPlantIds[Math.floor(Math.random() * harvestedPlantIds.length)];
     var plantData = plants[plantId];
     var facts = plantData && plantData.nutritionFacts;
     if (!facts || facts.length === 0) return [];
+
+    if (state.explainedPlantIds.indexOf(plantId) === -1) {
+      state.explainedPlantIds.push(plantId);
+    }
 
     var fact = facts[Math.floor(Math.random() * facts.length)];
     var scene = window.Events.getNutritionIntro().concat(fact, window.Events.getNutritionOutro());
@@ -220,13 +226,13 @@ window.Game = (function () {
   }
 
   /**
-   * じしんが最大まで育ったら、1回だけエンディングシーンを挟む。
+   * 全7種類の植物をコンプリートしたら（＝ゲームクリア）、1回だけエンディングシーンを挟む。
    * ゲームの5シーン構成（オープニング／栽培／植物選択／収穫解説／エンディング）の最後にあたる。
    * ゲームを終わらせるものではなく、その後も通常どおり遊び続けられる。
    */
   function checkEndingAndGetLines() {
     if (state.endingShown) return [];
-    if (state.jishin < balance.jishin.max) return [];
+    if (getUnownedPlantIds().length > 0) return [];
     state.endingShown = true;
     return withScene(window.Events.getEndingScene(), "ending");
   }
@@ -263,7 +269,7 @@ window.Game = (function () {
       }
     });
 
-    lines = lines.concat(maybeGetNutritionScene(harvestedPlantIds));
+    lines = lines.concat(getNutritionScene(harvestedPlantIds));
 
     var afterLevel = getJishinLevel();
     var leveledUp = afterLevel.threshold !== beforeLevel.threshold;
@@ -278,7 +284,7 @@ window.Game = (function () {
    */
   function autoHarvestNow() {
     var result = performAutoHarvest();
-    var lines = result.lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
+    var lines = result.lines.concat(checkPotUnlockAndGetLines());
     window.Save.store(state);
     return { lines: lines, gained: result.gained, leveledUp: result.leveledUp, harvestedAny: result.harvestedAny };
   }
@@ -315,7 +321,7 @@ window.Game = (function () {
 
     var lines = window.Events.getCare(type);
     if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
-    lines = lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
+    lines = lines.concat(checkPotUnlockAndGetLines());
 
     window.Save.store(state);
     return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
@@ -368,7 +374,7 @@ window.Game = (function () {
       lines = lines.concat(window.Events.getLowGenkiHint());
     }
 
-    lines = lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
+    lines = lines.concat(checkPotUnlockAndGetLines());
 
     window.Save.store(state);
     return { day: state.day, lines: lines, leveledUp: harvestResult.leveledUp };

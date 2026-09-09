@@ -16,19 +16,18 @@ window.CONFIG = (function () {
 
   // 鉢の固定スロット位置（ベランダ舞台に対する割合位置）。
   // slot01〜slot10 まで将来追加可能。
-  // キャラクターとの重なり順はランダム（前後どちらにもなる）なので、
-  // 鉢は見栄えを優先して大きめに配置している。
+  // 植物は画面下部に集中させて配置し、横方向にだけ散らしている。
   var SLOT_POSITIONS = {
-    slot01: { left: "44%", bottom: "0%", width: "26%" },
-    slot02: { left: "13%", bottom: "3%", width: "32%" },
-    slot03: { left: "87%", bottom: "3%", width: "32%" },
-    slot04: { left: "8%", bottom: "24%", width: "26%" },
-    slot05: { left: "92%", bottom: "24%", width: "26%" },
-    slot06: { left: "22%", bottom: "42%", width: "24%" },
-    slot07: { left: "78%", bottom: "42%", width: "24%" },
-    slot08: { left: "50%", bottom: "56%", width: "22%" },
-    slot09: { left: "35%", bottom: "58%", width: "20%" },
-    slot10: { left: "65%", bottom: "58%", width: "20%" }
+    slot01: { left: "50%", bottom: "0%", width: "24%" },
+    slot02: { left: "20%", bottom: "1%", width: "28%" },
+    slot03: { left: "80%", bottom: "1%", width: "28%" },
+    slot04: { left: "5%", bottom: "3%", width: "24%" },
+    slot05: { left: "95%", bottom: "3%", width: "24%" },
+    slot06: { left: "35%", bottom: "4%", width: "20%" },
+    slot07: { left: "65%", bottom: "4%", width: "20%" },
+    slot08: { left: "15%", bottom: "6%", width: "18%" },
+    slot09: { left: "85%", bottom: "6%", width: "18%" },
+    slot10: { left: "50%", bottom: "8%", width: "18%" }
   };
 
   var CHARACTER_ASSETS = {
@@ -46,8 +45,8 @@ window.CONFIG = (function () {
 
   // ゲーム全体は5つの基本シーンで構成される：
   // 1) オープニング（index.html） 2) 栽培シーン（ベランダ・通常時）
-  // 3) 次の植物選択シーン（じしんが一定を超えたら） 4) 収穫物の解説シーン
-  // 5) エンディングシーン（じしんが最大まで育ったら1回だけ）
+  // 3) 次の植物選択シーン（じしんが一定を超えたら） 4) 収穫物の解説シーン（毎ターン）
+  // 5) エンディングシーン（全7種類の植物をコンプリート＝ゲームクリアで1回だけ）
   // ここでは 3〜5 の会話シーン中に切り替えるベランダ背景を定義する。
   var SCENE_BACKGROUNDS = {
     nutrition: "assets/backgrounds/kaisetu.jpg",

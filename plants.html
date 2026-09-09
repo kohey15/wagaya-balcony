@@ -45,6 +45,14 @@
     color: var(--color-text-sub);
     margin-top: 6px;
   }
+  .product-locked {
+    font-size: 0.78rem;
+    color: var(--color-text-sub);
+    background: var(--color-bg);
+    border-radius: 10px;
+    padding: 10px 12px;
+    line-height: 1.5;
+  }
   .back-link {
     display: inline-block;
     margin-top: 24px;
@@ -62,15 +70,29 @@
   </div>
 
   <script src="js/config.js"></script>
+  <script src="js/save.js"></script>
   <script>
     (function () {
       "use strict";
+
+      function explainedPlantIds() {
+        var save = window.Save.load();
+        return (save && save.explainedPlantIds) || [];
+      }
+
       fetch(window.CONFIG.DATA_PATHS.plants, { cache: "no-cache" })
         .then(function (r) { return r.json(); })
         .then(function (plants) {
+          var explained = explainedPlantIds();
           var list = document.getElementById("plantList");
           Object.keys(plants).forEach(function (id) {
             var p = plants[id];
+            var isExplained = explained.indexOf(id) !== -1;
+            var purchaseHtml = isExplained
+              ? '<a class="btn btn-secondary" href="' + p.productUrl + '" target="_blank" rel="noopener noreferrer">本物の鉢を見てみる</a>' +
+                '<div class="product-note">' + (p.productNote || "") + "</div>"
+              : '<div class="product-locked">ゲーム内で収穫して栄養解説を聞くと、購入リンクが解放されます。</div>';
+
             var card = document.createElement("div");
             card.className = "plant-card";
             card.innerHTML =
@@ -80,8 +102,7 @@
               '<div class="plant-info">' +
               "<h2>" + p.name + "</h2>" +
               "<p>" + p.description + "</p>" +
-              '<a class="btn btn-secondary" href="' + p.productUrl + '" target="_blank" rel="noopener noreferrer">本物の鉢を見てみる</a>' +
-              '<div class="product-note">' + (p.productNote || "") + "</div>" +
+              purchaseHtml +
               "</div>";
             list.appendChild(card);
           });
