@@ -112,6 +112,14 @@
       { "speaker": "father", "text": "間違いないね。すごいよ。" }
     ]
   },
+  "potUnlockAnnounce": [
+    { "speaker": "father", "text": "そういえば、新しい鉢を迎えられるようになったみたいだよ。" },
+    { "speaker": "daughter", "text": "ほんとに！？ 見てみたい！" }
+  ],
+  "newPotWelcome": [
+    { "speaker": "daughter", "text": "{name}が来た！うれしいな！" },
+    { "speaker": "father", "text": "これからも大事に育てようね。" }
+  ],
   "lowGenkiHint": [
     [
       { "speaker": "father", "text": "水菜さん、少し元気がないみたいだね。" },

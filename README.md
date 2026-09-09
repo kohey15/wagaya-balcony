@@ -32,9 +32,10 @@
 │  ├ ui.js            … 画面描画・イベント処理（ロジックはgame.jsに委譲）
 │  └ main.js          … タイトル画面（index.html）専用の処理
 ├ data/
-│  ├ plants.json      … 植物データ（水菜1種、画像パス・商品URLなど）
-│  ├ events.json      … 会話データ（導入・収穫・お世話・翌日など）
-│  └ balance.json      … ゲームバランス数値（じしん・元気の増減など）
+│  ├ plants.json      … 植物データ（水菜／ミニトマト／バジル、画像パス・商品URLなど）
+│  ├ events.json      … 会話データ（導入・収穫・お世話・翌日・鉢追加など）
+│  └ balance.json      … ゲームバランス数値（じしん・元気の増減、鉢追加のしきい値など）
+├ .assetsignore       … デプロイ時に.gitなどを公開アセットから除外
 ├ assets/
 │  ├ backgrounds/     … 背景画像を置く場所（.gitkeepのみ）
 │  ├ characters/      … 父・娘の画像を置く場所
@@ -68,10 +69,11 @@
 - [x] じしんが称号のしきい値を超えた瞬間のお祝いセリフ＋バーが光る演出（Ver0.2）
 - [x] DAY6・DAY10の節目イベント＋DAY7以降はランダムな汎用会話プールで会話が尽きない（Ver0.2）
 - [x] 元気が少ない状態で新しい日を迎えると、父からやさしく声をかける一言（罰ではなく誘導）＋植物の彩度をわずかに下げる控えめな表現（Ver0.2）
+- [x] じしんが一定のしきい値（`balance.json`の`potUnlockThresholds`、既定は30/70）を超えると「新しい鉢を迎えるシーン」に移行し、ミニトマト／バジルから選んで鉢を追加できる（Ver0.2）
+- [x] 「収穫する」ボタンは、その日まだ収穫していない鉢をまとめて収穫（鉢が増えても1タップで完結）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
-- 複数の植物・複数の鉢（slot02以降の実データ）
 - 実際の画像素材（現在は絵文字プレースホルダー）
 - お世話をしないまま長期間放置した場合の追加演出
 - サウンド・BGM
@@ -100,15 +102,22 @@
 | 父の立ち絵 | `assets/characters/father.webp` | `js/config.js` の `CHARACTER_ASSETS.father` |
 | 娘の立ち絵 | `assets/characters/daughter.webp` | `js/config.js` の `CHARACTER_ASSETS.daughter` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
+| ミニトマトの画像（透過） | `assets/plants/minitomato.webp` | `data/plants.json` の `minitomato.image` |
+| バジルの画像（透過） | `assets/plants/basil.webp` | `data/plants.json` の `basil.image` |
 
 画像が無い間は絵文字で代替表示されるため、ファイルを未配置のまま公開しても壊れたアイコンは表示されません。
 
-## 次に実装すべき Ver 0.2 の内容
+## 鉢の追加（じしん連動の解放）の仕組み
 
-1. **植物の追加**：`data/plants.json` に2種類目以降を追加し、`slot02`以降に配置。
-2. **実画像への差し替え**：`assets/`配下にWebP画像を配置するだけで見た目が完成する。
-3. **じしん演出の強化**：レベルアップ時の簡単な演出（バッジ表示・効果音なしの視覚フィードバック）。
-4. **収穫物の活用**：`assets/food/`を使い、収穫した野菜が食卓に並ぶような簡易演出を追加。
-5. **お世話忘れ時の会話バリエーション**：元気が下がった状態専用のセリフをevents.jsonに追加。
-6. **EC連携の実装確認**：実際のSTORES/BASEの商品URLに差し替え、動作確認。
-7. **より長い期間の会話データ**：`dayStart`を6日目以降も継続できるよう拡充。
+- `data/plants.json` の各植物には `starter: true/false` があり、`true` の植物（水菜）だけが1日目から所持済み。
+- `data/balance.json` の `potUnlockThresholds`（既定 `[30, 70]`）は、じしんがこの値を超えるたびに「まだ持っていない植物」を選ぶシーンへ移行する、という設定。配列に値を追加すれば3鉢目以降も同じ仕組みで拡張できる。
+- 新しい植物を追加したいときは、`plants.json` に `starter: false` のエントリを増やし、`assets/plants/`に画像を置くだけでよい（スロットへの配置は自動）。
+- 会話文言は `data/events.json` の `potUnlockAnnounce`（解放告知）・`newPotWelcome`（お迎え時、`{name}`は植物名に置換される）で調整可能。
+
+## 次に実装すべき Ver 0.3 の内容
+
+1. **実画像への差し替え**：`assets/`配下にWebP画像を配置するだけで見た目が完成する。
+2. **収穫物の活用**：`assets/food/`を使い、収穫した野菜が食卓に並ぶような簡易演出を追加。
+3. **お世話忘れ時の会話バリエーション**：元気が下がった状態専用のセリフをさらに追加。
+4. **EC連携の実装確認**：実際のSTORES/BASEの商品URLに差し替え、動作確認。
+5. **鉢が増えた後の演出強化**：ベランダが賑やかになっていく様子を称号やHUDでも表現する。

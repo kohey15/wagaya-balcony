@@ -48,6 +48,8 @@ window.UI = (function () {
     el.fertilizerBtn = document.getElementById("fertilizerBtn");
     el.watchBtn = document.getElementById("watchBtn");
     el.nextDayBtn = document.getElementById("nextDayBtn");
+    el.plantSelectOverlay = document.getElementById("plantSelectOverlay");
+    el.plantSelectList = document.getElementById("plantSelectList");
   }
 
   function renderStaticLayers() {
@@ -176,6 +178,10 @@ window.UI = (function () {
 
   function showNextLine() {
     if (dialogueQueue.length === 0) {
+      if (window.Game.isPendingPlantSelection()) {
+        renderPlantSelectionOverlay();
+        return;
+      }
       showIdleLine();
       return;
     }
@@ -185,10 +191,46 @@ window.UI = (function () {
     el.dialogueNext.classList.toggle("hidden", dialogueQueue.length === 0);
   }
 
+  // ---- 鉢選択シーン ----
+
+  function renderPlantSelectionOverlay() {
+    var candidates = window.Game.getSelectionCandidates();
+    el.plantSelectList.innerHTML = candidates
+      .map(function (p) {
+        return (
+          '<button type="button" class="plant-select-card" data-plant-id="' + p.id + '">' +
+          spriteHtml(p.image, p.name, p.emojiFallback, "plant-select-thumb") +
+          '<span class="plant-select-info">' +
+          '<span class="plant-select-name">' + p.name + "</span>" +
+          '<span class="plant-select-desc">' + p.description + "</span>" +
+          "</span>" +
+          "</button>"
+        );
+      })
+      .join("");
+
+    Array.prototype.forEach.call(el.plantSelectList.querySelectorAll(".plant-select-card"), function (btn) {
+      btn.addEventListener("click", function () {
+        handleChoosePlant(btn.getAttribute("data-plant-id"));
+      });
+    });
+
+    el.plantSelectOverlay.classList.remove("hidden");
+  }
+
+  function handleChoosePlant(plantId) {
+    var result = window.Game.choosePlant(plantId);
+    el.plantSelectOverlay.classList.add("hidden");
+    if (!result.ok) return;
+    renderPlantSlots();
+    refreshAll();
+    showQueue(result.lines);
+  }
+
   // ---- アクション ----
 
   function handleHarvest() {
-    var result = window.Game.harvest("slot01");
+    var result = window.Game.harvestAll();
     showQueue(result.lines);
     refreshAll();
     if (result.leveledUp) playLevelUpEffect();
@@ -226,6 +268,10 @@ window.UI = (function () {
   }
 
   function maybeShowIntro() {
+    if (window.Game.isPendingPlantSelection()) {
+      renderPlantSelectionOverlay();
+      return;
+    }
     var state = window.Game.getState();
     if (state.day === 1 && window.Game.isFirstHarvestPending()) {
       showQueue(window.Events.getIntroDay1());

@@ -231,6 +231,78 @@
   box-shadow: 0 3px 0 var(--color-primary-dark);
 }
 
+/* ---- 鉢選択オーバーレイ（新しい植物を迎えるシーン） ---- */
+.plant-select-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  background: rgba(30, 40, 25, 0.55);
+  display: flex;
+  align-items: flex-end;
+}
+.plant-select-panel {
+  width: 100%;
+  max-height: 82%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+}
+.plant-select-title {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  color: var(--color-primary-dark);
+}
+.plant-select-sub {
+  margin: 0 0 14px;
+  font-size: 0.82rem;
+  color: var(--color-text-sub);
+}
+.plant-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.plant-select-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.plant-select-card:active {
+  transform: scale(0.98);
+  border-color: var(--color-primary);
+}
+.plant-select-thumb {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+}
+.plant-select-thumb.img-error::before {
+  font-size: 34px;
+}
+.plant-select-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.plant-select-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+.plant-select-desc {
+  font-size: 0.78rem;
+  color: var(--color-text-sub);
+  line-height: 1.4;
+}
+
 .load-error {
   padding: 24px;
   text-align: center;

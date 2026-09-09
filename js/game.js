@@ -10,16 +10,28 @@ window.Game = (function () {
   var plants = null;
   var state = null;
 
-  /** 新規ゲームの状態を作る */
+  /** 空いている中で最も番号の若いスロットIDを返す（slot01→slot02→…の順） */
+  function findFreeSlotId() {
+    var order = Object.keys(window.CONFIG.SLOT_POSITIONS);
+    for (var i = 0; i < order.length; i++) {
+      if (!state.plants[order[i]]) return order[i];
+    }
+    return null;
+  }
+
+  function makePlantEntry(plantId) {
+    return { plantId: plantId, genki: balance.genki.initial, harvestedToday: false };
+  }
+
+  /** 新規ゲームの状態を作る（最初から持っている「starter」植物のみ配置） */
   function createNewState() {
     var plantEntries = {};
+    var slotOrder = Object.keys(window.CONFIG.SLOT_POSITIONS);
+    var slotIndex = 0;
     Object.keys(plants).forEach(function (plantId) {
-      var p = plants[plantId];
-      plantEntries[p.slotId] = {
-        plantId: plantId,
-        genki: balance.genki.initial,
-        harvestedToday: false
-      };
+      if (!plants[plantId].starter) return;
+      plantEntries[slotOrder[slotIndex]] = makePlantEntry(plantId);
+      slotIndex += 1;
     });
 
     return {
@@ -29,6 +41,7 @@ window.Game = (function () {
       firstHarvestDone: false,
       careUsedToday: false,
       lastCareType: null,
+      pendingPlantSelection: false,
       plants: plantEntries
     };
   }
@@ -88,6 +101,71 @@ window.Game = (function () {
     };
   }
 
+  /** まだ迎えていない植物species一覧のIDを返す */
+  function getUnownedPlantIds() {
+    var ownedIds = Object.keys(state.plants).map(function (slotId) {
+      return state.plants[slotId].plantId;
+    });
+    return Object.keys(plants).filter(function (plantId) {
+      return ownedIds.indexOf(plantId) === -1;
+    });
+  }
+
+  /**
+   * じしんが鉢追加のしきい値を超えたかを確認し、超えていれば選択待ち状態にする。
+   * 保有している鉢の数だけ、しきい値を順番に消化していく（1つ目のしきい値→2鉢目、…）。
+   */
+  function checkPotUnlockAndGetLines() {
+    var thresholds = balance.potUnlockThresholds || [];
+    if (state.pendingPlantSelection) return [];
+
+    var ownedCount = Object.keys(state.plants).length;
+    var nextThresholdIndex = ownedCount - 1;
+    if (nextThresholdIndex < 0 || nextThresholdIndex >= thresholds.length) return [];
+    if (state.jishin < thresholds[nextThresholdIndex]) return [];
+    if (getUnownedPlantIds().length === 0) return [];
+
+    state.pendingPlantSelection = true;
+    return window.Events.getPotUnlockAnnounce();
+  }
+
+  function isPendingPlantSelection() {
+    return !!(state && state.pendingPlantSelection);
+  }
+
+  function getSelectionCandidates() {
+    return getUnownedPlantIds().map(function (plantId) {
+      return plants[plantId];
+    });
+  }
+
+  /**
+   * 選んだ植物を、空いている中で最も若いスロットへ迎え入れる。
+   * 戻り値: { ok, lines, plantId }
+   */
+  function choosePlant(plantId) {
+    if (!state.pendingPlantSelection || !plants[plantId]) {
+      return { ok: false, lines: [] };
+    }
+    if (getUnownedPlantIds().indexOf(plantId) === -1) {
+      return { ok: false, lines: [] };
+    }
+
+    var freeSlot = findFreeSlotId();
+    if (!freeSlot) return { ok: false, lines: [] };
+
+    state.plants[freeSlot] = makePlantEntry(plantId);
+    state.pendingPlantSelection = false;
+
+    var plantName = plants[plantId].name;
+    var lines = window.Events.getNewPotWelcome().map(function (line) {
+      return { speaker: line.speaker, text: line.text.replace("{name}", plantName) };
+    });
+
+    window.Save.store(state);
+    return { ok: true, lines: lines, plantId: plantId };
+  }
+
   function getPlantId(slotId) {
     return state.plants[slotId] ? state.plants[slotId].plantId : null;
   }
@@ -112,33 +190,46 @@ window.Game = (function () {
   }
 
   /**
-   * 収穫する。行動回数は消費しないが、1日1回まで（見た目上の株の回復待ち）。
+   * その日にまだ収穫していない鉢をまとめて収穫する。行動回数は消費しない。
+   * 鉢が複数になっても、1回のタップでベランダ全体を見て回るイメージ。
    * 戻り値: { ok, lines, jishinGained }
    */
-  function harvest(slotId) {
-    var slot = state.plants[slotId];
-    if (!slot) return { ok: false, lines: [] };
+  function harvestAll() {
+    var beforeLevel = getJishinLevel();
+    var totalGained = 0;
+    var lines = [];
+    var harvestedAny = false;
 
-    if (slot.harvestedToday) {
+    Object.keys(state.plants).forEach(function (slotId) {
+      var slot = state.plants[slotId];
+      if (slot.harvestedToday) return;
+      harvestedAny = true;
+
+      var isFirst = !state.firstHarvestDone;
+      slot.harvestedToday = true;
+      var gained = isFirst ? balance.jishin.gainHarvestFirst : balance.jishin.gainHarvest;
+      addJishin(gained);
+      totalGained += gained;
+
+      if (isFirst) {
+        state.firstHarvestDone = true;
+        lines = lines.concat(window.Events.getFirstHarvest());
+      } else {
+        lines = lines.concat(window.Events.getHarvest());
+      }
+    });
+
+    if (!harvestedAny) {
       return { ok: false, lines: window.Events.getHarvestBlocked() };
     }
 
-    slot.harvestedToday = true;
-    var isFirst = !state.firstHarvestDone;
-    var gained = isFirst ? balance.jishin.gainHarvestFirst : balance.jishin.gainHarvest;
-    var levelInfo = addJishinAndGetLevelUp(gained);
-
-    var lines;
-    if (isFirst) {
-      state.firstHarvestDone = true;
-      lines = window.Events.getFirstHarvest();
-    } else {
-      lines = window.Events.getHarvest();
-    }
-    if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
+    var afterLevel = getJishinLevel();
+    var leveledUp = afterLevel.threshold !== beforeLevel.threshold;
+    if (leveledUp) lines = lines.concat(window.Events.getLevelUp(afterLevel.threshold));
+    lines = lines.concat(checkPotUnlockAndGetLines());
 
     window.Save.store(state);
-    return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
+    return { ok: true, lines: lines, jishinGained: totalGained, leveledUp: leveledUp };
   }
 
   /**
@@ -175,6 +266,7 @@ window.Game = (function () {
 
     var lines = window.Events.getCare(type);
     if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
+    lines = lines.concat(checkPotUnlockAndGetLines());
 
     window.Save.store(state);
     return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
@@ -223,6 +315,8 @@ window.Game = (function () {
       lines = lines.concat(window.Events.getLowGenkiHint());
     }
 
+    lines = lines.concat(checkPotUnlockAndGetLines());
+
     window.Save.store(state);
     return { day: state.day, lines: lines };
   }
@@ -257,7 +351,7 @@ window.Game = (function () {
   return {
     init: init,
     resetGame: resetGame,
-    harvest: harvest,
+    harvestAll: harvestAll,
     care: care,
     nextDay: nextDay,
     getState: getState,
@@ -267,6 +361,9 @@ window.Game = (function () {
     getGenkiView: getGenkiView,
     getJishinLevel: getJishinLevel,
     getAllSlotIds: getAllSlotIds,
-    isFirstHarvestPending: isFirstHarvestPending
+    isFirstHarvestPending: isFirstHarvestPending,
+    isPendingPlantSelection: isPendingPlantSelection,
+    getSelectionCandidates: getSelectionCandidates,
+    choosePlant: choosePlant
   };
 })();
