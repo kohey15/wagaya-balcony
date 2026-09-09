@@ -7,6 +7,7 @@ window.UI = (function () {
 
   var el = {}; // DOM参照キャッシュ
   var dialogueQueue = [];
+  var dialogueTimer = null; // 会話の自動送りタイマー
   var speakerLabel = { father: "父", daughter: "娘" };
 
   /**
@@ -166,7 +167,21 @@ window.UI = (function () {
     el.dialogueText.textContent = line.text;
   }
 
+  function clearDialogueTimer() {
+    if (dialogueTimer) {
+      clearTimeout(dialogueTimer);
+      dialogueTimer = null;
+    }
+  }
+
+  /** セリフの長さに応じて、次のセリフへ自動で進むまでの時間を決める */
+  function scheduleAutoAdvance(text) {
+    var delay = Math.min(4500, Math.max(1200, 1000 + (text || "").length * 120));
+    dialogueTimer = setTimeout(showNextLine, delay);
+  }
+
   function showNextLine() {
+    clearDialogueTimer();
     if (dialogueQueue.length === 0) {
       if (window.Game.isPendingPlantSelection()) {
         renderPlantSelectionOverlay();
@@ -179,6 +194,7 @@ window.UI = (function () {
     renderLine(line);
     el.dialogueBox.classList.remove("idle");
     el.dialogueNext.classList.toggle("hidden", dialogueQueue.length === 0);
+    scheduleAutoAdvance(line.text);
   }
 
   // ---- 鉢選択シーン ----
@@ -220,10 +236,19 @@ window.UI = (function () {
   // ---- アクション ----
 
   function handleCare(type) {
-    var result = window.Game.care(type);
-    showQueue(result.lines);
+    var careResult = window.Game.care(type);
+    if (!careResult.ok) {
+      // 1日1回の上限に達している場合など：お世話せず、その日の会話だけ表示する
+      showQueue(careResult.lines);
+      refreshAll();
+      return;
+    }
+
+    // お世話を選んだら、収穫〜翌日への移行までまとめて自動的に進める
+    var dayResult = window.Game.nextDay();
     refreshAll();
-    if (result.leveledUp) playLevelUpEffect();
+    showQueue(careResult.lines.concat(dayResult.lines));
+    if (careResult.leveledUp || dayResult.leveledUp) playLevelUpEffect();
   }
 
   function handleNextDay() {
