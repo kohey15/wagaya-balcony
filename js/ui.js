@@ -93,9 +93,8 @@ window.UI = (function () {
       // 鉢は常にキャラクターより手前。鉢同士の重なり順はランダムにする
       wrap.style.zIndex = randomZIndex("plant");
 
-      wrap.innerHTML =
-        spriteHtml(plantData.image, plantData.name, "plant-sprite") +
-        '<div class="genki-badge" id="genki_' + slotId + '"></div>';
+      wrap.innerHTML = spriteHtml(plantData.image, plantData.name, "plant-sprite");
+      wrap.title = plantData.name;
 
       el.plantLayer.appendChild(wrap);
     });
@@ -104,18 +103,14 @@ window.UI = (function () {
   }
 
   function refreshGenkiBadges() {
+    // バッジ（色の点）は表示しないが、元気の状態に応じた見た目の変化
+    // （彩度を落とす）だけは引き続き反映する。
     window.Game.getAllSlotIds().forEach(function (slotId) {
-      var badge = document.getElementById("genki_" + slotId);
       var slotEl = document.getElementById("slot_" + slotId);
-      if (!badge) return;
+      if (!slotEl) return;
       var view = window.Game.getGenkiView(slotId);
-      // 絵文字は使わず、元気の状態を色の点で伝える
-      badge.style.backgroundColor = view ? view.color : "transparent";
-      badge.title = view ? view.label : "";
-      // 元気が少ない状態は、枯れさせる代わりに見た目をわずかに控えめにするだけに留める
-      if (slotEl) {
-        slotEl.classList.toggle("genki-low", !!view && view.min === 0);
-      }
+      slotEl.classList.toggle("genki-low", !!view && view.min === 0);
+      slotEl.title = view ? view.label : "";
     });
   }
 

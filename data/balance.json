@@ -25,9 +25,9 @@
     "waterGain": 30,
     "fertilizerGain": 40,
     "states": [
-      { "min": 65, "color": "#5b9a4c", "label": "とても元気" },
-      { "min": 35, "color": "#f4b942", "label": "元気" },
-      { "min": 0, "color": "#b0b6a9", "label": "少し元気がない" }
+      { "min": 65, "label": "とても元気" },
+      { "min": 35, "label": "元気" },
+      { "min": 0, "label": "少し元気がない" }
     ]
   }
 }
