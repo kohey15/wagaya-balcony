@@ -87,10 +87,25 @@ window.UI = (function () {
   function refreshGenkiBadges() {
     window.Game.getAllSlotIds().forEach(function (slotId) {
       var badge = document.getElementById("genki_" + slotId);
+      var slotEl = document.getElementById("slot_" + slotId);
       if (!badge) return;
       var view = window.Game.getGenkiView(slotId);
       badge.textContent = view ? view.emoji : "";
       badge.title = view ? view.label : "";
+      // 元気が少ない状態は、枯れさせる代わりに見た目をわずかに控えめにするだけに留める
+      if (slotEl) {
+        slotEl.classList.toggle("genki-low", !!view && view.min === 0);
+      }
+    });
+  }
+
+  /** じしんのレベルアップ演出（バーと称号を一瞬光らせる） */
+  function playLevelUpEffect() {
+    [el.jishinFill, el.jishinTitle].forEach(function (node) {
+      node.classList.remove("levelup-pulse");
+      // 再アニメーションのため一度クラスを外してから戻す
+      void node.offsetWidth;
+      node.classList.add("levelup-pulse");
     });
   }
 
@@ -176,12 +191,14 @@ window.UI = (function () {
     var result = window.Game.harvest("slot01");
     showQueue(result.lines);
     refreshAll();
+    if (result.leveledUp) playLevelUpEffect();
   }
 
   function handleCare(type) {
     var result = window.Game.care(type);
     showQueue(result.lines);
     refreshAll();
+    if (result.leveledUp) playLevelUpEffect();
   }
 
   function handleNextDay() {

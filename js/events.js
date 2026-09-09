@@ -46,9 +46,22 @@ window.Events = (function () {
     return list || [];
   }
 
+  function getDayStartPool() {
+    return pickRandom(data && data.dayStartPool);
+  }
+
   function getMilestone(day) {
     var list = data && data.milestone && data.milestone[String(day)];
     return list || [];
+  }
+
+  function getLevelUp(threshold) {
+    var list = data && data.levelUp && data.levelUp[String(threshold)];
+    return list || [];
+  }
+
+  function getLowGenkiHint() {
+    return pickRandom(data && data.lowGenkiHint);
   }
 
   function getIdle() {
@@ -64,7 +77,10 @@ window.Events = (function () {
     getCare: getCare,
     getCareBlocked: getCareBlocked,
     getDayStart: getDayStart,
+    getDayStartPool: getDayStartPool,
     getMilestone: getMilestone,
+    getLevelUp: getLevelUp,
+    getLowGenkiHint: getLowGenkiHint,
     getIdle: getIdle
   };
 })();

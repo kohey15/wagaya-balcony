@@ -80,8 +80,48 @@
       { "speaker": "father", "text": "5日間、よくがんばったね。" },
       { "speaker": "daughter", "text": "まだまだ育てたい！つづけてもいい？" },
       { "speaker": "father", "text": "もちろん。これからも一緒にお世話しよう。" }
+    ],
+    "10": [
+      { "speaker": "daughter", "text": "もう10日も育ててるんだね！" },
+      { "speaker": "father", "text": "水菜さんとも、すっかり仲良しだ。" }
     ]
   },
+  "dayStartPool": [
+    [{ "speaker": "father", "text": "おはよう。今日のベランダも見てみようか。" }],
+    [{ "speaker": "daughter", "text": "今日は水菜さん、どうなってるかな。" }],
+    [{ "speaker": "father", "text": "今日も元気に始めよう。" }],
+    [{ "speaker": "daughter", "text": "毎日見るの、やっぱり楽しいな。" }],
+    [{ "speaker": "father", "text": "さて、今日は何をしてあげようか。" }],
+    [{ "speaker": "daughter", "text": "水菜さん、今日もよろしくね。" }]
+  ],
+  "levelUp": {
+    "20": [
+      { "speaker": "daughter", "text": "なんだか、ちょっとじしんがついてきたかも！" },
+      { "speaker": "father", "text": "いい調子だね。" }
+    ],
+    "40": [
+      { "speaker": "daughter", "text": "わたし、がんばりやさんになってきた気がする！" },
+      { "speaker": "father", "text": "本当だ。頼もしくなってきたよ。" }
+    ],
+    "60": [
+      { "speaker": "father", "text": "すっかり頼もしいベランダ農家だね。" },
+      { "speaker": "daughter", "text": "えへへ、もっとお世話がんばる！" }
+    ],
+    "80": [
+      { "speaker": "daughter", "text": "わたし、ベランダめいじんになったかも！？" },
+      { "speaker": "father", "text": "間違いないね。すごいよ。" }
+    ]
+  },
+  "lowGenkiHint": [
+    [
+      { "speaker": "father", "text": "水菜さん、少し元気がないみたいだね。" },
+      { "speaker": "daughter", "text": "今日は何かしてあげようかな。" }
+    ],
+    [
+      { "speaker": "daughter", "text": "あれ、なんだか元気がなさそう…。" },
+      { "speaker": "father", "text": "お水か肥料をあげてみようか。" }
+    ]
+  ],
   "idle": [
     { "speaker": "father", "text": "今日もベランダの様子を見てみよう。" }
   ]

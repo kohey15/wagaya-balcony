@@ -73,6 +73,21 @@ window.Game = (function () {
     state.jishin = clampJishin(state.jishin + amount);
   }
 
+  /**
+   * じしんを加算し、称号のしきい値をまたいだ場合はお祝いのセリフを添えて返す。
+   */
+  function addJishinAndGetLevelUp(amount) {
+    var before = getJishinLevel();
+    addJishin(amount);
+    var after = getJishinLevel();
+    var leveledUp = after.threshold !== before.threshold;
+    return {
+      leveledUp: leveledUp,
+      lines: leveledUp ? window.Events.getLevelUp(after.threshold) : [],
+      newLevelTitle: after.title
+    };
+  }
+
   function getPlantId(slotId) {
     return state.plants[slotId] ? state.plants[slotId].plantId : null;
   }
@@ -111,7 +126,7 @@ window.Game = (function () {
     slot.harvestedToday = true;
     var isFirst = !state.firstHarvestDone;
     var gained = isFirst ? balance.jishin.gainHarvestFirst : balance.jishin.gainHarvest;
-    addJishin(gained);
+    var levelInfo = addJishinAndGetLevelUp(gained);
 
     var lines;
     if (isFirst) {
@@ -120,9 +135,10 @@ window.Game = (function () {
     } else {
       lines = window.Events.getHarvest();
     }
+    if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
 
     window.Save.store(state);
-    return { ok: true, lines: lines, jishinGained: gained };
+    return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
   }
 
   /**
@@ -153,13 +169,15 @@ window.Game = (function () {
     });
 
     var gained = jishinGainMap[type];
-    addJishin(gained);
+    var levelInfo = addJishinAndGetLevelUp(gained);
     state.careUsedToday = true;
     state.lastCareType = type;
 
     var lines = window.Events.getCare(type);
+    if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
+
     window.Save.store(state);
-    return { ok: true, lines: lines, jishinGained: gained };
+    return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
   }
 
   /**
@@ -183,9 +201,26 @@ window.Game = (function () {
     state.careUsedToday = false;
     state.lastCareType = null;
 
-    var lines = window.Events.getDayStart(state.day);
-    if (state.day === balance.mvpDays + 1) {
-      lines = window.Events.getMilestone(state.day).concat(lines);
+    // 節目の日 > 個別に用意した日 > それ以外はランダムな汎用会話、の優先順で選ぶ。
+    // こうすることで、あらかじめ用意した日数を超えても会話が尽きない。
+    var milestoneLines = window.Events.getMilestone(state.day);
+    var explicitLines = window.Events.getDayStart(state.day);
+    var lines;
+    if (milestoneLines.length > 0) {
+      lines = milestoneLines;
+    } else if (explicitLines.length > 0) {
+      lines = explicitLines;
+    } else {
+      lines = window.Events.getDayStartPool();
+    }
+
+    // 元気が少ない株があれば、罰ではなく優しい一声を添える。
+    var hasLowGenki = Object.keys(state.plants).some(function (slotId) {
+      var view = getGenkiView(slotId);
+      return view && view.min === 0;
+    });
+    if (hasLowGenki) {
+      lines = lines.concat(window.Events.getLowGenkiHint());
     }
 
     window.Save.store(state);

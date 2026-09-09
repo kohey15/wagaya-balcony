@@ -52,6 +52,20 @@
   background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
   transition: width 0.4s ease;
 }
+
+/* じしんが称号のしきい値を超えた瞬間の演出 */
+.levelup-pulse {
+  animation: levelup-glow 0.9s ease;
+}
+@keyframes levelup-glow {
+  0% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0.9); }
+  60% { box-shadow: 0 0 0 8px rgba(244, 185, 66, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0); }
+}
+#jishinTitle.levelup-pulse {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
 .icon-btn {
   flex: 0 0 auto;
   width: 36px;
@@ -113,6 +127,11 @@
 }
 .plant-sprite.img-error::before {
   font-size: min(52px, 70%);
+}
+/* 元気が少ない時も枯れさせず、彩度をわずかに落とすだけの控えめな表現に留める */
+.plant-slot.genki-low .plant-sprite {
+  filter: saturate(0.6) brightness(0.94);
+  transition: filter 0.5s ease;
 }
 .genki-badge {
   position: absolute;
