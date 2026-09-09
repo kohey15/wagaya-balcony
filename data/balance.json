@@ -16,6 +16,7 @@
     ]
   },
   "potUnlockThresholds": [20, 35, 50, 65, 80, 95],
+  "nutritionSceneChance": 0.35,
   "genki": {
     "initial": 80,
     "max": 100,

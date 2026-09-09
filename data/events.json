@@ -21,6 +21,16 @@
       { "speaker": "father", "text": "毎日お世話してるからだね。" }
     ]
   ],
+  "nutritionIntro": [
+    [{ "speaker": "daughter", "text": "ねえ、これってどんな栄養があるの？" }],
+    [{ "speaker": "daughter", "text": "これ食べると、どんないいことがあるの？" }],
+    [{ "speaker": "daughter", "text": "ねえねえ、これってからだにいいの？" }]
+  ],
+  "nutritionOutro": [
+    [{ "speaker": "daughter", "text": "へえ、知らなかった！" }],
+    [{ "speaker": "daughter", "text": "すごい、じゃあいっぱい食べなきゃ！" }],
+    [{ "speaker": "daughter", "text": "なんだかもっと好きになった！" }]
+  ],
   "care": {
     "water": [
       [

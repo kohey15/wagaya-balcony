@@ -68,6 +68,14 @@ window.Events = (function () {
     return (data && data.newPotWelcome) || [];
   }
 
+  function getNutritionIntro() {
+    return pickRandom(data && data.nutritionIntro);
+  }
+
+  function getNutritionOutro() {
+    return pickRandom(data && data.nutritionOutro);
+  }
+
   function getIdle() {
     return (data && data.idle) || [];
   }
@@ -86,6 +94,8 @@ window.Events = (function () {
     getLowGenkiHint: getLowGenkiHint,
     getPotUnlockAnnounce: getPotUnlockAnnounce,
     getNewPotWelcome: getNewPotWelcome,
+    getNutritionIntro: getNutritionIntro,
+    getNutritionOutro: getNutritionOutro,
     getIdle: getIdle
   };
 })();

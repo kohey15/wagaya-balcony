@@ -190,6 +190,24 @@ window.Game = (function () {
   }
 
   /**
+   * 収穫した植物の中から1つを選び、一定確率で栄養素の豆知識シーンを差し込む。
+   * 「ねえ、これってどんな栄養があるの？」→植物ごとの豆知識→「へえ！」という短い会話。
+   */
+  function maybeGetNutritionScene(harvestedPlantIds) {
+    if (harvestedPlantIds.length === 0) return [];
+    var chance = balance.nutritionSceneChance || 0;
+    if (Math.random() >= chance) return [];
+
+    var plantId = harvestedPlantIds[Math.floor(Math.random() * harvestedPlantIds.length)];
+    var plantData = plants[plantId];
+    var facts = plantData && plantData.nutritionFacts;
+    if (!facts || facts.length === 0) return [];
+
+    var fact = facts[Math.floor(Math.random() * facts.length)];
+    return window.Events.getNutritionIntro().concat(fact, window.Events.getNutritionOutro());
+  }
+
+  /**
    * その日にまだ収穫していない鉢をまとめて収穫する（内部処理）。
    * 収穫はプレイヤーの操作を必要とせず、日が始まるたびに自動で行われる。
    * save・鉢追加判定は呼び出し側でまとめて行うため、ここでは行わない。
@@ -199,11 +217,13 @@ window.Game = (function () {
     var totalGained = 0;
     var lines = [];
     var harvestedAny = false;
+    var harvestedPlantIds = [];
 
     Object.keys(state.plants).forEach(function (slotId) {
       var slot = state.plants[slotId];
       if (slot.harvestedToday) return;
       harvestedAny = true;
+      harvestedPlantIds.push(slot.plantId);
 
       var isFirst = !state.firstHarvestDone;
       slot.harvestedToday = true;
@@ -218,6 +238,8 @@ window.Game = (function () {
         lines = lines.concat(window.Events.getHarvest());
       }
     });
+
+    lines = lines.concat(maybeGetNutritionScene(harvestedPlantIds));
 
     var afterLevel = getJishinLevel();
     var leveledUp = afterLevel.threshold !== beforeLevel.threshold;

@@ -7,7 +7,11 @@
     "image": "assets/plants/mizuna.webp",
     "emojiFallback": "🥬",
     "productUrl": "https://example.com/placeholder-product/mizuna",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "水菜にはビタミンCやカルシウムがたっぷり入っているんだよ。" }],
+      [{ "speaker": "father", "text": "水菜は生でも食べられるくらい、みずみずしくて栄養満点なんだ。" }]
+    ]
   },
   "hourensou": {
     "id": "hourensou",
@@ -17,7 +21,11 @@
     "image": "assets/plants/hourensou.webp",
     "emojiFallback": "🍃",
     "productUrl": "https://example.com/placeholder-product/hourensou",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "ほうれん草には鉄分が多くて、元気な血をつくる手助けをしてくれるんだ。" }],
+      [{ "speaker": "father", "text": "ほうれん草はベータカロテンも豊富で、目や肌にもいいんだよ。" }]
+    ]
   },
   "ichigo": {
     "id": "ichigo",
@@ -27,7 +35,11 @@
     "image": "assets/plants/ichigo.webp",
     "emojiFallback": "🍓",
     "productUrl": "https://example.com/placeholder-product/ichigo",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "いちごはビタミンCがとても多くて、レモンにも負けないくらいなんだよ。" }],
+      [{ "speaker": "father", "text": "いちごの粒々は種で、1つの実に200個くらいついているんだって。" }]
+    ]
   },
   "kukibrokkori": {
     "id": "kukibrokkori",
@@ -37,7 +49,11 @@
     "image": "assets/plants/kukibrokkori.webp",
     "emojiFallback": "🥦",
     "productUrl": "https://example.com/placeholder-product/kukibrokkori",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "茎ブロッコリーはビタミンCと食物繊維がたっぷりなんだ。" }],
+      [{ "speaker": "father", "text": "茎の部分は甘みが強くて、実はいちばん栄養があるところなんだよ。" }]
+    ]
   },
   "iceplant": {
     "id": "iceplant",
@@ -47,7 +63,11 @@
     "image": "assets/plants/iceplant.webp",
     "emojiFallback": "🌵",
     "productUrl": "https://example.com/placeholder-product/iceplant",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "アイスプラントの葉のツブツブには、ミネラルがぎゅっと詰まっているんだよ。" }],
+      [{ "speaker": "father", "text": "しょっぱく感じるのは、土や水のミネラルをたくさん溜め込んでいるからなんだ。" }]
+    ]
   },
   "basil": {
     "id": "basil",
@@ -57,7 +77,11 @@
     "image": "assets/plants/basil.webp",
     "emojiFallback": "🌿",
     "productUrl": "https://example.com/placeholder-product/basil",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "バジルの香りには、気持ちを落ち着かせてくれる力があるんだって。" }],
+      [{ "speaker": "father", "text": "バジルにもベータカロテンが入っていて、体にいいハーブなんだよ。" }]
+    ]
   },
   "parsley": {
     "id": "parsley",
@@ -67,6 +91,10 @@
     "image": "assets/plants/parsley.webp",
     "emojiFallback": "☘️",
     "productUrl": "https://example.com/placeholder-product/parsley",
-    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）",
+    "nutritionFacts": [
+      [{ "speaker": "father", "text": "パセリは少ししか食べなくても、ビタミンCや鉄分がぎっしり詰まっているんだ。" }],
+      [{ "speaker": "father", "text": "彩りに乗せるだけの葉っぱに見えて、実はとても栄養が濃いんだよ。" }]
+    ]
   }
 }
