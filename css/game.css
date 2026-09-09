@@ -92,6 +92,17 @@
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
+  transition: background-image 0.2s ease;
+}
+
+/* 栄養解説・食事シーンなど、専用イラストに切り替わる場面
+   （その絵の中にキャラクターが描き込まれているため、通常のキャラ・鉢は隠す） */
+.stage.scene-cutscene .bg-layer {
+  background-position: center top;
+}
+.stage.scene-cutscene .char-layer,
+.stage.scene-cutscene .plant-layer {
+  display: none;
 }
 
 .char-layer {
@@ -229,8 +240,9 @@
   cursor: not-allowed;
 }
 
-/* 肥料ボタン：画像そのものをボタンにし、画像の縦横比に合わせてサイズを決める */
-.action-fertilizer-image {
+/* 水・肥料ボタン：画像そのものをボタンにし、画像の縦横比に合わせてサイズを決める */
+.action-fertilizer-image,
+.action-water-image {
   background: var(--color-surface);
   border: 2px solid var(--color-accent);
   padding: 4px;
@@ -243,17 +255,23 @@
   aspect-ratio: 411 / 500;
   margin: 0 auto;
 }
-.action-fertilizer-image img {
+.action-fertilizer-image img,
+.action-water-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
 }
-.action-fertilizer-image.img-error {
+.action-fertilizer-image.img-error,
+.action-water-image.img-error {
   position: relative;
 }
 .action-fertilizer-image.img-error::before {
   content: "🌱";
+  font-size: 28px;
+}
+.action-water-image.img-error::before {
+  content: "💧";
   font-size: 28px;
 }
 .action-nextday {

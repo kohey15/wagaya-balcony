@@ -21,6 +21,26 @@
       { "speaker": "father", "text": "毎日お世話してるからだね。" }
     ]
   ],
+  "mealScene": [
+    [
+      { "speaker": "father", "text": "いただきます。今日の野菜もおいしいね。" },
+      { "speaker": "daughter", "text": "わたしがとった野菜だよ！" },
+      { "speaker": "mother", "text": "がんばって育てたもんね。" }
+    ],
+    [
+      { "speaker": "mother", "text": "今日の晩ごはんは、ベランダの野菜たっぷりだよ。" },
+      { "speaker": "daughter", "text": "やったー！ いただきます！" },
+      { "speaker": "father", "text": "うん、うまい。" }
+    ],
+    [
+      { "speaker": "daughter", "text": "今日もおいしいごはん、ありがとう！" },
+      { "speaker": "father", "text": "こちらこそ、おいしい野菜をありがとう。" }
+    ],
+    [
+      { "speaker": "mother", "text": "今日の野菜、色もきれいだね。" },
+      { "speaker": "daughter", "text": "明日も見に行くの、たのしみ！" }
+    ]
+  ],
   "nutritionIntro": [
     [{ "speaker": "daughter", "text": "ねえ、これってどんな栄養があるの？" }],
     [{ "speaker": "daughter", "text": "これ食べると、どんないいことがあるの？" }],

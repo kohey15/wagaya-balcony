@@ -40,6 +40,13 @@ window.CONFIG = (function () {
   var BACKGROUND_ASSET = "assets/backgrounds/balcony.jpg";
   var OPENING_IMAGE = "assets/backgrounds/opening.jpg";
   var FERTILIZER_BUTTON_IMAGE = "assets/ui/hiryou.webp";
+  var WATER_BUTTON_IMAGE = "assets/ui/mizuyari.webp";
+
+  // 特定の会話シーン中だけ、ベランダの背景を差し替える先
+  var SCENE_BACKGROUNDS = {
+    nutrition: "assets/backgrounds/kaisetu.jpg",
+    meal: "assets/backgrounds/syokuji.jpg"
+  };
 
   return {
     SAVE_KEY: SAVE_KEY,
@@ -48,6 +55,8 @@ window.CONFIG = (function () {
     CHARACTER_ASSETS: CHARACTER_ASSETS,
     BACKGROUND_ASSET: BACKGROUND_ASSET,
     OPENING_IMAGE: OPENING_IMAGE,
-    FERTILIZER_BUTTON_IMAGE: FERTILIZER_BUTTON_IMAGE
+    FERTILIZER_BUTTON_IMAGE: FERTILIZER_BUTTON_IMAGE,
+    WATER_BUTTON_IMAGE: WATER_BUTTON_IMAGE,
+    SCENE_BACKGROUNDS: SCENE_BACKGROUNDS
   };
 })();

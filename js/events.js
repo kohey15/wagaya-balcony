@@ -76,6 +76,10 @@ window.Events = (function () {
     return pickRandom(data && data.nutritionOutro);
   }
 
+  function getMealScene() {
+    return pickRandom(data && data.mealScene);
+  }
+
   function getIdle() {
     return (data && data.idle) || [];
   }
@@ -96,6 +100,7 @@ window.Events = (function () {
     getNewPotWelcome: getNewPotWelcome,
     getNutritionIntro: getNutritionIntro,
     getNutritionOutro: getNutritionOutro,
+    getMealScene: getMealScene,
     getIdle: getIdle
   };
 })();

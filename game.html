@@ -45,7 +45,9 @@
 
       <div class="action-bar" id="actionBar">
         <div class="care-row">
-          <button id="waterBtn" class="action-btn action-care">💧 水をあげる</button>
+          <button id="waterBtn" class="action-btn action-care action-water-image" aria-label="水をあげる">
+            <img id="waterImg" alt="水をあげる" onerror="this.style.display='none'; this.parentElement.classList.add('img-error');">
+          </button>
           <button id="fertilizerBtn" class="action-btn action-care action-fertilizer-image" aria-label="肥料をあげる">
             <img id="fertilizerImg" alt="肥料をあげる" onerror="this.style.display='none'; this.parentElement.classList.add('img-error');">
           </button>

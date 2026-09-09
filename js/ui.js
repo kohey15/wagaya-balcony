@@ -36,6 +36,7 @@ window.UI = (function () {
     el.menuBtn = document.getElementById("menuBtn");
     el.menuPanel = document.getElementById("menuPanel");
     el.resetBtn = document.getElementById("resetBtn");
+    el.stage = document.getElementById("stage");
     el.bgLayer = document.getElementById("bgLayer");
     el.charMother = document.getElementById("charMother");
     el.charFamily = document.getElementById("charFamily");
@@ -45,6 +46,7 @@ window.UI = (function () {
     el.dialogueText = document.getElementById("dialogueText");
     el.dialogueNext = document.getElementById("dialogueNext");
     el.waterBtn = document.getElementById("waterBtn");
+    el.waterImg = document.getElementById("waterImg");
     el.fertilizerBtn = document.getElementById("fertilizerBtn");
     el.fertilizerImg = document.getElementById("fertilizerImg");
     el.nextDayBtn = document.getElementById("nextDayBtn");
@@ -58,6 +60,7 @@ window.UI = (function () {
     el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", ch.mother.emojiFallback, "char-sprite");
     el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", ch.family.emojiFallback, "char-sprite");
     el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
+    el.waterImg.src = window.CONFIG.WATER_BUTTON_IMAGE;
   }
 
   function renderPlantSlots() {
@@ -124,16 +127,11 @@ window.UI = (function () {
   function renderActionBar() {
     var state = window.Game.getState();
     var careDisabled = state.careUsedToday;
+    // 水・肥料ともに画像そのものが見た目を兼ねるため、テキストの切り替えは不要。
+    // お世話済みかどうかは disabled による不透明度の変化（CSS）だけで伝える。
     [el.waterBtn, el.fertilizerBtn].forEach(function (btn) {
       btn.disabled = careDisabled;
     });
-
-    // 肥料ボタンは画像そのものが見た目を兼ねるため、テキストは水やりボタンのみ切り替える
-    if (careDisabled && state.lastCareType === "water") {
-      el.waterBtn.textContent = "💧 水やり済み";
-    } else {
-      el.waterBtn.textContent = "💧 水をあげる";
-    }
   }
 
   function refreshAll() {
@@ -144,6 +142,18 @@ window.UI = (function () {
 
   // ---- 会話ダイアログ ----
 
+  var currentScene = "stage"; // "stage"（通常のベランダ）/ "nutrition"（栄養解説）/ "meal"（食事）
+
+  /** セリフに付いた scene（"nutrition"/"meal"等）に応じて、背景とキャラ・鉢の表示を切り替える */
+  function applySceneBackground(scene) {
+    scene = scene || "stage";
+    if (scene === currentScene) return;
+    currentScene = scene;
+    var url = (window.CONFIG.SCENE_BACKGROUNDS && window.CONFIG.SCENE_BACKGROUNDS[scene]) || window.CONFIG.BACKGROUND_ASSET;
+    el.bgLayer.style.backgroundImage = "url('" + url + "')";
+    el.stage.classList.toggle("scene-cutscene", scene !== "stage");
+  }
+
   function showQueue(lines) {
     dialogueQueue = (lines || []).slice();
     el.dialogueBox.classList.remove("idle");
@@ -151,6 +161,7 @@ window.UI = (function () {
   }
 
   function showIdleLine() {
+    applySceneBackground("stage");
     var lines = window.Events.getIdle();
     var line = lines[0] || { speaker: "father", text: "" };
     renderLine(line);
@@ -187,6 +198,7 @@ window.UI = (function () {
       return;
     }
     var line = dialogueQueue.shift();
+    applySceneBackground(line.scene);
     renderLine(line);
     el.dialogueBox.classList.remove("idle");
     el.dialogueNext.classList.toggle("hidden", dialogueQueue.length === 0);
@@ -196,6 +208,7 @@ window.UI = (function () {
   // ---- 鉢選択シーン ----
 
   function renderPlantSelectionOverlay() {
+    applySceneBackground("stage");
     var candidates = window.Game.getSelectionCandidates();
     el.plantSelectList.innerHTML = candidates
       .map(function (p) {

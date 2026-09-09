@@ -191,9 +191,17 @@ window.Game = (function () {
     return current;
   }
 
+  /** セリフの配列に scene タグを付ける（UIが専用の背景へ切り替えるために使う） */
+  function withScene(lines, scene) {
+    return lines.map(function (line) {
+      return { speaker: line.speaker, text: line.text, scene: scene };
+    });
+  }
+
   /**
    * 収穫した植物の中から1つを選び、一定確率で栄養素の豆知識シーンを差し込む。
    * 「ねえ、これってどんな栄養があるの？」→植物ごとの豆知識→「へえ！」という短い会話。
+   * 母娘のキッチンイラストへ舞台が切り替わる。
    */
   function maybeGetNutritionScene(harvestedPlantIds) {
     if (harvestedPlantIds.length === 0) return [];
@@ -206,7 +214,13 @@ window.Game = (function () {
     if (!facts || facts.length === 0) return [];
 
     var fact = facts[Math.floor(Math.random() * facts.length)];
-    return window.Events.getNutritionIntro().concat(fact, window.Events.getNutritionOutro());
+    var scene = window.Events.getNutritionIntro().concat(fact, window.Events.getNutritionOutro());
+    return withScene(scene, "nutrition");
+  }
+
+  /** 各ターンの最後に必ず挟む、その日収穫した野菜を使った食事シーン */
+  function getMealScene() {
+    return withScene(window.Events.getMealScene(), "meal");
   }
 
   /**
@@ -347,6 +361,9 @@ window.Game = (function () {
     }
 
     lines = lines.concat(checkPotUnlockAndGetLines());
+
+    // 各ターンの最後には、収穫した野菜を食べる食事シーンを必ず挟む。
+    lines = lines.concat(getMealScene());
 
     window.Save.store(state);
     return { day: state.day, lines: lines, leveledUp: harvestResult.leveledUp };

@@ -77,10 +77,13 @@
 - [x] 全7種類の植物をコンプリートすると「栽培のコツ」ページ（tips.html）が解放される。それまでは収穫済みかどうかのチェックリスト表示のみ（Ver0.2）
 - [x] JSONデータ（plants/events/balance）の取得を`cache:"no-cache"`にし、更新後もブラウザキャッシュで古い内容が残らないよう修正（Ver0.2）
 - [x] タイトル画面のヒーロー画像、ベランダ背景、父娘の立ち絵、肥料ボタンの画像を実素材に差し替え。肥料ボタンは画像の縦横比に合わせた専用サイズで表示（Ver0.2）
+- [x] 水やりボタンも画像化し、肥料ボタンと同じ仕組みで縦横比に合わせた専用サイズに（Ver0.2）
+- [x] 植物7種すべてを実画像に差し替え（Ver0.2）
+- [x] 栄養解説シーン・食事シーンで、専用のイラスト背景に切り替わる仕組みを追加。切り替え中は通常のキャラ・鉢を隠し、シーンのイラストだけを表示する（Ver0.2）
+- [x] 各ターンの最後（翌日へ進むタイミング）に、その日の野菜を使った食事シーンを必ず1つ挟むように（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
-- 母・各植物・各鉢の画像（現在は絵文字プレースホルダー。タイトル画面／ベランダ背景／父娘の立ち絵／肥料ボタンは実素材に差し替え済み）
 - お世話をしないまま長期間放置した場合の追加演出
 - サウンド・BGM
 - 日本語以外の言語対応
@@ -109,6 +112,9 @@
 | 父と娘の立ち絵（1枚にまとめた画像） | `assets/characters/family_cultivating.webp` | `js/config.js` の `CHARACTER_ASSETS.family` |
 | 母の立ち絵 | `assets/characters/mother.webp` | `js/config.js` の `CHARACTER_ASSETS.mother` |
 | 肥料ボタンの画像 | `assets/ui/hiryou.webp` | `js/config.js` の `FERTILIZER_BUTTON_IMAGE` |
+| 水やりボタンの画像 | `assets/ui/mizuyari.webp` | `js/config.js` の `WATER_BUTTON_IMAGE` |
+| 栄養解説シーンの背景 | `assets/backgrounds/kaisetu.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.nutrition` |
+| 食事シーンの背景 | `assets/backgrounds/syokuji.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.meal` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
 | いちごの画像（透過） | `assets/plants/ichigo.webp` | `data/plants.json` の `ichigo.image` |
@@ -133,6 +139,14 @@
 - 植物ごとの豆知識は `data/plants.json` の各植物の `nutritionFacts` に配列で持たせてあり、複数用意しておくとランダムに選ばれてバリエーションが出る。
 - 前後を挟む「ねえ、これってどんな栄養があるの？」「へえ、知らなかった！」のような定型セリフは `data/events.json` の `nutritionIntro` / `nutritionOutro` から選ばれる（こちらもランダム）。
 - 新しい植物を追加する際は `nutritionFacts` に `[{ "speaker": "mother", "text": "…" }]` の形式で1つ以上追加すればよい（未設定の場合はそのシーンは出ない）。栄養解説は母のセリフという設定なので `speaker` は `mother` を使う。
+
+## 専用背景に切り替わる会話シーン（栄養解説・食事）の仕組み
+
+- 会話データの各セリフは `{ speaker, text }` の他に、任意で `scene` を持てる（`js/game.js` の `withScene()` が付与）。
+- `js/ui.js` はセリフを1行表示するたびに `scene` を見て、`js/config.js` の `SCENE_BACKGROUNDS`（`nutrition` → `kaisetu.jpg`、`meal` → `syokuji.jpg`）に従って背景画像を切り替える。`scene` が無い（通常の）セリフでは、いつものベランダ背景に戻る。
+- `scene` 中はステージに `scene-cutscene` クラスが付き、`css/game.css` の定義により通常のキャラクター（父娘・母）と鉢は非表示になる（イラスト側にすでにキャラクターが描かれているため）。
+- 食事シーンは `nextDay()`（＝日をまたぐたび）の最後に必ず1つ挟まる。会話文言は `data/events.json` の `mealScene` から配列単位でランダムに選ばれる。
+- 新しいシーン種別を増やしたい場合は、①`SCENE_BACKGROUNDS`に背景を追加、②該当セリフを`withScene(lines, "新しい名前")`で包む、の2手順でよい。
 
 ## 栽培のコツ（tips.html）の仕組み
 
