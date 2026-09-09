@@ -37,9 +37,8 @@ window.UI = (function () {
     el.menuPanel = document.getElementById("menuPanel");
     el.resetBtn = document.getElementById("resetBtn");
     el.bgLayer = document.getElementById("bgLayer");
-    el.charFather = document.getElementById("charFather");
     el.charMother = document.getElementById("charMother");
-    el.charDaughter = document.getElementById("charDaughter");
+    el.charFamily = document.getElementById("charFamily");
     el.plantLayer = document.getElementById("plantLayer");
     el.dialogueBox = document.getElementById("dialogueBox");
     el.dialogueSpeaker = document.getElementById("dialogueSpeaker");
@@ -47,6 +46,7 @@ window.UI = (function () {
     el.dialogueNext = document.getElementById("dialogueNext");
     el.waterBtn = document.getElementById("waterBtn");
     el.fertilizerBtn = document.getElementById("fertilizerBtn");
+    el.fertilizerImg = document.getElementById("fertilizerImg");
     el.nextDayBtn = document.getElementById("nextDayBtn");
     el.plantSelectOverlay = document.getElementById("plantSelectOverlay");
     el.plantSelectList = document.getElementById("plantSelectList");
@@ -55,9 +55,9 @@ window.UI = (function () {
   function renderStaticLayers() {
     el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.BACKGROUND_ASSET + "')";
     var ch = window.CONFIG.CHARACTER_ASSETS;
-    el.charFather.innerHTML = spriteHtml(ch.father.image, "父", ch.father.emojiFallback, "char-sprite");
     el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", ch.mother.emojiFallback, "char-sprite");
-    el.charDaughter.innerHTML = spriteHtml(ch.daughter.image, "娘", ch.daughter.emojiFallback, "char-sprite");
+    el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", ch.family.emojiFallback, "char-sprite");
+    el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
   }
 
   function renderPlantSlots() {
@@ -128,17 +128,11 @@ window.UI = (function () {
       btn.disabled = careDisabled;
     });
 
-    if (careDisabled) {
-      var doneLabel = { water: "💧 水やり済み", fertilizer: "🌱 肥料やり済み" };
-      [
-        [el.waterBtn, "water"],
-        [el.fertilizerBtn, "fertilizer"]
-      ].forEach(function (pair) {
-        if (state.lastCareType === pair[1]) pair[0].textContent = doneLabel[pair[1]];
-      });
+    // 肥料ボタンは画像そのものが見た目を兼ねるため、テキストは水やりボタンのみ切り替える
+    if (careDisabled && state.lastCareType === "water") {
+      el.waterBtn.textContent = "💧 水やり済み";
     } else {
       el.waterBtn.textContent = "💧 水をあげる";
-      el.fertilizerBtn.textContent = "🌱 肥料をあげる";
     }
   }
 

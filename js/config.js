@@ -15,33 +15,39 @@ window.CONFIG = (function () {
   };
 
   // 鉢の固定スロット位置（ベランダ舞台に対する割合位置）。
-  // slot01〜slot10 まで将来追加可能。MVPでは slot01 のみ使用。
+  // slot01〜slot10 まで将来追加可能。
+  // 中央下は父と娘のイラスト（char-family）が占めるため、鉢は両脇と
+  // 手前の隙間に配置し、顔や体に重ならないようにしている。
   var SLOT_POSITIONS = {
-    slot01: { left: "50%", bottom: "8%", width: "46%" },
-    slot02: { left: "14%", bottom: "6%", width: "30%" },
-    slot03: { left: "86%", bottom: "6%", width: "30%" },
-    slot04: { left: "30%", bottom: "4%", width: "26%" },
-    slot05: { left: "70%", bottom: "4%", width: "26%" },
-    slot06: { left: "50%", bottom: "30%", width: "24%" },
-    slot07: { left: "20%", bottom: "28%", width: "22%" },
-    slot08: { left: "80%", bottom: "28%", width: "22%" },
-    slot09: { left: "35%", bottom: "50%", width: "20%" },
-    slot10: { left: "65%", bottom: "50%", width: "20%" }
+    slot01: { left: "44%", bottom: "0%", width: "17%" },
+    slot02: { left: "13%", bottom: "3%", width: "24%" },
+    slot03: { left: "87%", bottom: "3%", width: "24%" },
+    slot04: { left: "8%", bottom: "24%", width: "18%" },
+    slot05: { left: "92%", bottom: "24%", width: "18%" },
+    slot06: { left: "22%", bottom: "42%", width: "16%" },
+    slot07: { left: "78%", bottom: "42%", width: "16%" },
+    slot08: { left: "50%", bottom: "56%", width: "16%" },
+    slot09: { left: "35%", bottom: "58%", width: "14%" },
+    slot10: { left: "65%", bottom: "58%", width: "14%" }
   };
 
   var CHARACTER_ASSETS = {
-    father: { image: "assets/characters/father.webp", emojiFallback: "👨" },
     mother: { image: "assets/characters/mother.webp", emojiFallback: "👩" },
-    daughter: { image: "assets/characters/daughter.webp", emojiFallback: "👧" }
+    // 父と娘は、しゃがんで一緒にベランダを眺める1枚のイラストにまとめて表示する
+    family: { image: "assets/characters/family_cultivating.webp", emojiFallback: "👨‍👧" }
   };
 
-  var BACKGROUND_ASSET = "assets/backgrounds/balcony.webp";
+  var BACKGROUND_ASSET = "assets/backgrounds/balcony.jpg";
+  var OPENING_IMAGE = "assets/backgrounds/opening.jpg";
+  var FERTILIZER_BUTTON_IMAGE = "assets/ui/hiryou.webp";
 
   return {
     SAVE_KEY: SAVE_KEY,
     DATA_PATHS: DATA_PATHS,
     SLOT_POSITIONS: SLOT_POSITIONS,
     CHARACTER_ASSETS: CHARACTER_ASSETS,
-    BACKGROUND_ASSET: BACKGROUND_ASSET
+    BACKGROUND_ASSET: BACKGROUND_ASSET,
+    OPENING_IMAGE: OPENING_IMAGE,
+    FERTILIZER_BUTTON_IMAGE: FERTILIZER_BUTTON_IMAGE
   };
 })();

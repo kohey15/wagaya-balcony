@@ -76,14 +76,15 @@
 - [x] 栄養解説は「母」が担当。父・娘に加えて母のキャラクターをベランダ舞台の奥に追加（Ver0.2）
 - [x] 全7種類の植物をコンプリートすると「栽培のコツ」ページ（tips.html）が解放される。それまでは収穫済みかどうかのチェックリスト表示のみ（Ver0.2）
 - [x] JSONデータ（plants/events/balance）の取得を`cache:"no-cache"`にし、更新後もブラウザキャッシュで古い内容が残らないよう修正（Ver0.2）
+- [x] タイトル画面のヒーロー画像、ベランダ背景、父娘の立ち絵、肥料ボタンの画像を実素材に差し替え。肥料ボタンは画像の縦横比に合わせた専用サイズで表示（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
-- 実際の画像素材（現在は絵文字プレースホルダー）
+- 母・各植物・各鉢の画像（現在は絵文字プレースホルダー。タイトル画面／ベランダ背景／父娘の立ち絵／肥料ボタンは実素材に差し替え済み）
 - お世話をしないまま長期間放置した場合の追加演出
 - サウンド・BGM
 - 日本語以外の言語対応
-- タイトル画面や図鑑ページのビジュアル強化
+- 図鑑ページのビジュアル強化
 
 ## Cloudflare Pagesへの公開手順
 
@@ -103,10 +104,11 @@
 
 | 用途 | 配置先 | 参照元 |
 | --- | --- | --- |
-| ベランダ背景 | `assets/backgrounds/balcony.webp` | `js/config.js` の `BACKGROUND_ASSET` |
-| 父の立ち絵 | `assets/characters/father.webp` | `js/config.js` の `CHARACTER_ASSETS.father` |
+| タイトル画面のヒーロー画像 | `assets/backgrounds/opening.jpg` | `js/config.js` の `OPENING_IMAGE`（`index.html`が直接参照） |
+| ベランダ背景 | `assets/backgrounds/balcony.jpg` | `js/config.js` の `BACKGROUND_ASSET` |
+| 父と娘の立ち絵（1枚にまとめた画像） | `assets/characters/family_cultivating.webp` | `js/config.js` の `CHARACTER_ASSETS.family` |
 | 母の立ち絵 | `assets/characters/mother.webp` | `js/config.js` の `CHARACTER_ASSETS.mother` |
-| 娘の立ち絵 | `assets/characters/daughter.webp` | `js/config.js` の `CHARACTER_ASSETS.daughter` |
+| 肥料ボタンの画像 | `assets/ui/hiryou.webp` | `js/config.js` の `FERTILIZER_BUTTON_IMAGE` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
 | いちごの画像（透過） | `assets/plants/ichigo.webp` | `data/plants.json` の `ichigo.image` |

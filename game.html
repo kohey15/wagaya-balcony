@@ -31,9 +31,8 @@
       <main class="stage" id="stage">
         <div class="bg-layer" id="bgLayer"></div>
         <div class="char-layer">
-          <div class="char char-father" id="charFather"></div>
           <div class="char char-mother" id="charMother"></div>
-          <div class="char char-daughter" id="charDaughter"></div>
+          <div class="char char-family" id="charFamily"></div>
         </div>
         <div class="plant-layer" id="plantLayer"></div>
       </main>
@@ -47,7 +46,9 @@
       <div class="action-bar" id="actionBar">
         <div class="care-row">
           <button id="waterBtn" class="action-btn action-care">💧 水をあげる</button>
-          <button id="fertilizerBtn" class="action-btn action-care">🌱 肥料をあげる</button>
+          <button id="fertilizerBtn" class="action-btn action-care action-fertilizer-image" aria-label="肥料をあげる">
+            <img id="fertilizerImg" alt="肥料をあげる" onerror="this.style.display='none'; this.parentElement.classList.add('img-error');">
+          </button>
         </div>
         <button id="nextDayBtn" class="action-btn action-nextday">🌅 翌日へ</button>
       </div>

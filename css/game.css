@@ -101,16 +101,6 @@
 }
 .char {
   position: absolute;
-  bottom: 4%;
-  width: 26%;
-  max-width: 120px;
-  height: 55%;
-}
-.char-father {
-  left: 4%;
-}
-.char-daughter {
-  right: 6%;
 }
 .char-mother {
   /* ドアの奥から顔を出したイメージで、鉢の邪魔にならない上部に配置 */
@@ -118,6 +108,16 @@
   top: 3%;
   width: 18%;
   height: 30%;
+  transform: translateX(-50%);
+}
+.char-family {
+  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置し、鉢は前面に重ねて表示する */
+  left: 50%;
+  bottom: 0%;
+  width: 62%;
+  max-width: 260px;
+  aspect-ratio: 1000 / 833;
+  height: auto;
   transform: translateX(-50%);
 }
 .char-sprite.img-error::before {
@@ -227,6 +227,34 @@
 .action-care:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* 肥料ボタン：画像そのものをボタンにし、画像の縦横比に合わせてサイズを決める */
+.action-fertilizer-image {
+  background: var(--color-surface);
+  border: 2px solid var(--color-accent);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  height: 64px;
+  width: auto;
+  aspect-ratio: 411 / 500;
+  margin: 0 auto;
+}
+.action-fertilizer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.action-fertilizer-image.img-error {
+  position: relative;
+}
+.action-fertilizer-image.img-error::before {
+  content: "🌱";
+  font-size: 28px;
 }
 .action-nextday {
   background: var(--color-primary);
