@@ -7,7 +7,6 @@
     "gainHarvest": 6,
     "gainWater": 3,
     "gainFertilizer": 4,
-    "gainWatch": 2,
     "levels": [
       { "threshold": 0, "title": "はじめの一歩" },
       { "threshold": 20, "title": "すこしずつじしんがついてきた" },
@@ -16,7 +15,7 @@
       { "threshold": 80, "title": "ベランダめいじん" }
     ]
   },
-  "potUnlockThresholds": [15, 30, 45, 60, 75, 90],
+  "potUnlockThresholds": [20, 35, 50, 65, 80, 95],
   "genki": {
     "initial": 80,
     "max": 100,
@@ -24,7 +23,6 @@
     "decayPerDay": 15,
     "waterGain": 30,
     "fertilizerGain": 40,
-    "watchGain": 10,
     "states": [
       { "min": 65, "emoji": "😊", "label": "とても元気" },
       { "min": 35, "emoji": "🙂", "label": "元気" },

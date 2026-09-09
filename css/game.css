@@ -207,14 +207,9 @@
 .action-btn:active {
   transform: scale(0.97);
 }
-.action-harvest {
-  background: var(--color-secondary);
-  color: #4a3400;
-  box-shadow: 0 3px 0 #c9922a;
-}
 .care-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 .action-care {

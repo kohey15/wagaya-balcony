@@ -190,11 +190,11 @@ window.Game = (function () {
   }
 
   /**
-   * その日にまだ収穫していない鉢をまとめて収穫する。行動回数は消費しない。
-   * 鉢が複数になっても、1回のタップでベランダ全体を見て回るイメージ。
-   * 戻り値: { ok, lines, jishinGained }
+   * その日にまだ収穫していない鉢をまとめて収穫する（内部処理）。
+   * 収穫はプレイヤーの操作を必要とせず、日が始まるたびに自動で行われる。
+   * save・鉢追加判定は呼び出し側でまとめて行うため、ここでは行わない。
    */
-  function harvestAll() {
+  function performAutoHarvest() {
     var beforeLevel = getJishinLevel();
     var totalGained = 0;
     var lines = [];
@@ -219,21 +219,26 @@ window.Game = (function () {
       }
     });
 
-    if (!harvestedAny) {
-      return { ok: false, lines: window.Events.getHarvestBlocked() };
-    }
-
     var afterLevel = getJishinLevel();
     var leveledUp = afterLevel.threshold !== beforeLevel.threshold;
     if (leveledUp) lines = lines.concat(window.Events.getLevelUp(afterLevel.threshold));
-    lines = lines.concat(checkPotUnlockAndGetLines());
 
-    window.Save.store(state);
-    return { ok: true, lines: lines, jishinGained: totalGained, leveledUp: leveledUp };
+    return { harvestedAny: harvestedAny, lines: lines, gained: totalGained, leveledUp: leveledUp };
   }
 
   /**
-   * お世話をする（水・肥料・見守る）。1日1回。
+   * DAY1の開始時など、日またぎ以外のタイミングで収穫を確定させたい場合に呼ぶ。
+   * 戻り値: { lines, gained, leveledUp, harvestedAny }
+   */
+  function autoHarvestNow() {
+    var result = performAutoHarvest();
+    var lines = result.lines.concat(checkPotUnlockAndGetLines());
+    window.Save.store(state);
+    return { lines: lines, gained: result.gained, leveledUp: result.leveledUp, harvestedAny: result.harvestedAny };
+  }
+
+  /**
+   * お世話をする（水・肥料）。1日1回。
    * 戻り値: { ok, lines, jishinGained }
    */
   function care(type) {
@@ -243,13 +248,11 @@ window.Game = (function () {
 
     var genkiGainMap = {
       water: balance.genki.waterGain,
-      fertilizer: balance.genki.fertilizerGain,
-      watch: balance.genki.watchGain
+      fertilizer: balance.genki.fertilizerGain
     };
     var jishinGainMap = {
       water: balance.jishin.gainWater,
-      fertilizer: balance.jishin.gainFertilizer,
-      watch: balance.jishin.gainWatch
+      fertilizer: balance.jishin.gainFertilizer
     };
 
     if (!(type in genkiGainMap)) return { ok: false, lines: [] };
@@ -306,6 +309,10 @@ window.Game = (function () {
       lines = window.Events.getDayStartPool();
     }
 
+    // 収穫はプレイヤーの操作なしで、日が始まるタイミングで自動的に行われる。
+    var harvestResult = performAutoHarvest();
+    lines = lines.concat(harvestResult.lines);
+
     // 元気が少ない株があれば、罰ではなく優しい一声を添える。
     var hasLowGenki = Object.keys(state.plants).some(function (slotId) {
       var view = getGenkiView(slotId);
@@ -318,7 +325,7 @@ window.Game = (function () {
     lines = lines.concat(checkPotUnlockAndGetLines());
 
     window.Save.store(state);
-    return { day: state.day, lines: lines };
+    return { day: state.day, lines: lines, leveledUp: harvestResult.leveledUp };
   }
 
   function resetGame() {
@@ -351,7 +358,7 @@ window.Game = (function () {
   return {
     init: init,
     resetGame: resetGame,
-    harvestAll: harvestAll,
+    autoHarvestNow: autoHarvestNow,
     care: care,
     nextDay: nextDay,
     getState: getState,

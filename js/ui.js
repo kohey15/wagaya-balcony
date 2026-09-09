@@ -43,10 +43,8 @@ window.UI = (function () {
     el.dialogueSpeaker = document.getElementById("dialogueSpeaker");
     el.dialogueText = document.getElementById("dialogueText");
     el.dialogueNext = document.getElementById("dialogueNext");
-    el.harvestBtn = document.getElementById("harvestBtn");
     el.waterBtn = document.getElementById("waterBtn");
     el.fertilizerBtn = document.getElementById("fertilizerBtn");
-    el.watchBtn = document.getElementById("watchBtn");
     el.nextDayBtn = document.getElementById("nextDayBtn");
     el.plantSelectOverlay = document.getElementById("plantSelectOverlay");
     el.plantSelectList = document.getElementById("plantSelectList");
@@ -122,30 +120,22 @@ window.UI = (function () {
 
   function renderActionBar() {
     var state = window.Game.getState();
-    var anyNotHarvested = window.Game.getAllSlotIds().some(function (slotId) {
-      return !state.plants[slotId].harvestedToday;
-    });
-
-    el.harvestBtn.classList.toggle("hidden", !anyNotHarvested);
-
     var careDisabled = state.careUsedToday;
-    [el.waterBtn, el.fertilizerBtn, el.watchBtn].forEach(function (btn) {
+    [el.waterBtn, el.fertilizerBtn].forEach(function (btn) {
       btn.disabled = careDisabled;
     });
 
     if (careDisabled) {
-      var doneLabel = { water: "💧 水やり済み", fertilizer: "🌱 肥料やり済み", watch: "👀 見守り済み" };
+      var doneLabel = { water: "💧 水やり済み", fertilizer: "🌱 肥料やり済み" };
       [
         [el.waterBtn, "water"],
-        [el.fertilizerBtn, "fertilizer"],
-        [el.watchBtn, "watch"]
+        [el.fertilizerBtn, "fertilizer"]
       ].forEach(function (pair) {
         if (state.lastCareType === pair[1]) pair[0].textContent = doneLabel[pair[1]];
       });
     } else {
       el.waterBtn.textContent = "💧 水をあげる";
       el.fertilizerBtn.textContent = "🌱 肥料をあげる";
-      el.watchBtn.textContent = "👀 見守る";
     }
   }
 
@@ -229,13 +219,6 @@ window.UI = (function () {
 
   // ---- アクション ----
 
-  function handleHarvest() {
-    var result = window.Game.harvestAll();
-    showQueue(result.lines);
-    refreshAll();
-    if (result.leveledUp) playLevelUpEffect();
-  }
-
   function handleCare(type) {
     var result = window.Game.care(type);
     showQueue(result.lines);
@@ -251,6 +234,7 @@ window.UI = (function () {
     } else {
       showIdleLine();
     }
+    if (result.leveledUp) playLevelUpEffect();
   }
 
   function handleReset() {
@@ -274,17 +258,20 @@ window.UI = (function () {
     }
     var state = window.Game.getState();
     if (state.day === 1 && window.Game.isFirstHarvestPending()) {
-      showQueue(window.Events.getIntroDay1());
+      // DAY1は「とっていい？」のやり取りのあと、収穫が自動で行われる。
+      var introLines = window.Events.getIntroDay1();
+      var harvestResult = window.Game.autoHarvestNow();
+      refreshAll();
+      showQueue(introLines.concat(harvestResult.lines));
+      if (harvestResult.leveledUp) playLevelUpEffect();
     } else {
       showIdleLine();
     }
   }
 
   function wireEvents() {
-    el.harvestBtn.addEventListener("click", handleHarvest);
     el.waterBtn.addEventListener("click", function () { handleCare("water"); });
     el.fertilizerBtn.addEventListener("click", function () { handleCare("fertilizer"); });
-    el.watchBtn.addEventListener("click", function () { handleCare("watch"); });
     el.nextDayBtn.addEventListener("click", handleNextDay);
     el.dialogueBox.addEventListener("click", showNextLine);
     el.menuBtn.addEventListener("click", toggleMenu);

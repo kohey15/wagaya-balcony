@@ -28,10 +28,6 @@ window.Events = (function () {
     return pickRandom(data && data.harvest);
   }
 
-  function getHarvestBlocked() {
-    return (data && data.harvestBlocked) || [];
-  }
-
   function getCare(type) {
     var list = data && data.care && data.care[type];
     return pickRandom(list);
@@ -81,7 +77,6 @@ window.Events = (function () {
     getIntroDay1: getIntroDay1,
     getFirstHarvest: getFirstHarvest,
     getHarvest: getHarvest,
-    getHarvestBlocked: getHarvestBlocked,
     getCare: getCare,
     getCareBlocked: getCareBlocked,
     getDayStart: getDayStart,

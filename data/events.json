@@ -41,25 +41,11 @@
         { "speaker": "daughter", "text": "これでもっと大きくなるかな？" },
         { "speaker": "father", "text": "きっとなるよ。" }
       ]
-    ],
-    "watch": [
-      [
-        { "speaker": "daughter", "text": "今日はようすを見るだけにする。" },
-        { "speaker": "father", "text": "それも大事なお世話だよ。" }
-      ],
-      [
-        { "speaker": "daughter", "text": "元気にしてるか、じっくり見てみる。" },
-        { "speaker": "father", "text": "変化に気づけるようになったね。" }
-      ]
     ]
   },
   "careBlocked": [
     { "speaker": "daughter", "text": "今日のお世話はもうしたよ。" },
     { "speaker": "father", "text": "明日もよろしくね。" }
-  ],
-  "harvestBlocked": [
-    { "speaker": "daughter", "text": "今日はもうとったよ。" },
-    { "speaker": "father", "text": "また明日、見てみよう。" }
   ],
   "dayStart": {
     "2": [
