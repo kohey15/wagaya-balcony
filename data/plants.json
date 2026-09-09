@@ -9,14 +9,44 @@
     "productUrl": "https://example.com/placeholder-product/mizuna",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）"
   },
-  "minitomato": {
-    "id": "minitomato",
-    "name": "ミニトマト",
+  "hourensou": {
+    "id": "hourensou",
+    "name": "ほうれん草",
     "starter": false,
-    "description": "赤い実がたくさんついた鉢植え。甘みが強く、そのままおやつ代わりにも収穫できます。",
-    "image": "assets/plants/minitomato.webp",
-    "emojiFallback": "🍅",
-    "productUrl": "https://example.com/placeholder-product/minitomato",
+    "description": "栄養たっぷりの緑黄色野菜。おひたしや炒め物にも大活躍する食卓の定番です。",
+    "image": "assets/plants/hourensou.webp",
+    "emojiFallback": "🍃",
+    "productUrl": "https://example.com/placeholder-product/hourensou",
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+  },
+  "ichigo": {
+    "id": "ichigo",
+    "name": "いちご",
+    "starter": false,
+    "description": "赤くつやつやした実がなる鉢植え。甘い香りがして、収穫がいちばん楽しみになる一鉢です。",
+    "image": "assets/plants/ichigo.webp",
+    "emojiFallback": "🍓",
+    "productUrl": "https://example.com/placeholder-product/ichigo",
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+  },
+  "kukibrokkori": {
+    "id": "kukibrokkori",
+    "name": "茎ブロッコリー",
+    "starter": false,
+    "description": "茎まで甘くやわらかいブロッコリー。切ってもまた新しい茎が伸びてくる、育てがいのある一鉢です。",
+    "image": "assets/plants/kukibrokkori.webp",
+    "emojiFallback": "🥦",
+    "productUrl": "https://example.com/placeholder-product/kukibrokkori",
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+  },
+  "iceplant": {
+    "id": "iceplant",
+    "name": "アイスプラント",
+    "starter": false,
+    "description": "葉の表面がキラキラ光る、少ししょっぱい不思議な野菜。見た目も味も楽しめる変わり種です。",
+    "image": "assets/plants/iceplant.webp",
+    "emojiFallback": "🌵",
+    "productUrl": "https://example.com/placeholder-product/iceplant",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）"
   },
   "basil": {
@@ -27,6 +57,16 @@
     "image": "assets/plants/basil.webp",
     "emojiFallback": "🌿",
     "productUrl": "https://example.com/placeholder-product/basil",
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+  },
+  "parsley": {
+    "id": "parsley",
+    "name": "パセリ",
+    "starter": false,
+    "description": "彩りにも便利な万能ハーブ。少し摘み取るだけで料理がぐっと華やかになります。",
+    "image": "assets/plants/parsley.webp",
+    "emojiFallback": "☘️",
+    "productUrl": "https://example.com/placeholder-product/parsley",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）"
   }
 }

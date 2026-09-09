@@ -16,7 +16,7 @@
       { "threshold": 80, "title": "ベランダめいじん" }
     ]
   },
-  "potUnlockThresholds": [30, 70],
+  "potUnlockThresholds": [15, 30, 45, 60, 75, 90],
   "genki": {
     "initial": 80,
     "max": 100,

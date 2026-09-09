@@ -102,15 +102,20 @@
 | 父の立ち絵 | `assets/characters/father.webp` | `js/config.js` の `CHARACTER_ASSETS.father` |
 | 娘の立ち絵 | `assets/characters/daughter.webp` | `js/config.js` の `CHARACTER_ASSETS.daughter` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
-| ミニトマトの画像（透過） | `assets/plants/minitomato.webp` | `data/plants.json` の `minitomato.image` |
+| ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
+| いちごの画像（透過） | `assets/plants/ichigo.webp` | `data/plants.json` の `ichigo.image` |
+| 茎ブロッコリーの画像（透過） | `assets/plants/kukibrokkori.webp` | `data/plants.json` の `kukibrokkori.image` |
+| アイスプラントの画像（透過） | `assets/plants/iceplant.webp` | `data/plants.json` の `iceplant.image` |
 | バジルの画像（透過） | `assets/plants/basil.webp` | `data/plants.json` の `basil.image` |
+| パセリの画像（透過） | `assets/plants/parsley.webp` | `data/plants.json` の `parsley.image` |
 
 画像が無い間は絵文字で代替表示されるため、ファイルを未配置のまま公開しても壊れたアイコンは表示されません。
 
 ## 鉢の追加（じしん連動の解放）の仕組み
 
-- `data/plants.json` の各植物には `starter: true/false` があり、`true` の植物（水菜）だけが1日目から所持済み。
-- `data/balance.json` の `potUnlockThresholds`（既定 `[30, 70]`）は、じしんがこの値を超えるたびに「まだ持っていない植物」を選ぶシーンへ移行する、という設定。配列に値を追加すれば3鉢目以降も同じ仕組みで拡張できる。
+- 植物ラインナップは全7種：水菜／ほうれん草／いちご／茎ブロッコリー／アイスプラント／バジル／パセリ。
+- `data/plants.json` の各植物には `starter: true/false` があり、`true` の植物（水菜）だけが1日目から所持済み。残り6種が選択候補。
+- `data/balance.json` の `potUnlockThresholds`（既定 `[15, 30, 45, 60, 75, 90]`）は、じしんがこの値を超えるたびに「まだ持っていない植物」を選ぶシーンへ移行する、という設定。6種の候補に対応して6段階のしきい値を用意している。
 - 新しい植物を追加したいときは、`plants.json` に `starter: false` のエントリを増やし、`assets/plants/`に画像を置くだけでよい（スロットへの配置は自動）。
 - 会話文言は `data/events.json` の `potUnlockAnnounce`（解放告知）・`newPotWelcome`（お迎え時、`{name}`は植物名に置換される）で調整可能。
 
