@@ -76,8 +76,8 @@ window.Events = (function () {
     return pickRandom(data && data.nutritionOutro);
   }
 
-  function getMealScene() {
-    return pickRandom(data && data.mealScene);
+  function getEndingScene() {
+    return pickRandom(data && data.endingScene);
   }
 
   function getIdle() {
@@ -100,7 +100,7 @@ window.Events = (function () {
     getNewPotWelcome: getNewPotWelcome,
     getNutritionIntro: getNutritionIntro,
     getNutritionOutro: getNutritionOutro,
-    getMealScene: getMealScene,
+    getEndingScene: getEndingScene,
     getIdle: getIdle
   };
 })();

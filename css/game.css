@@ -124,9 +124,9 @@
   transform: translateX(-50%);
 }
 .char-family {
-  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置（少し上寄り） */
+  /* しゃがんで一緒にベランダを眺める父と娘。手前中央に配置（上寄り） */
   left: 50%;
-  bottom: 6%;
+  bottom: 14%;
   width: 82%;
   max-width: 340px;
   aspect-ratio: 1000 / 833;
@@ -253,7 +253,10 @@
   background: linear-gradient(135deg, var(--color-border), var(--color-bg));
 }
 
-/* ---- 鉢選択オーバーレイ（新しい植物を迎えるシーン） ---- */
+/* ---- 鉢選択オーバーレイ（新しい植物を迎えるシーン） ----
+   縦長画面ではイラストを上、選択ウインドウを下に。
+   横長画面（.stage.scene-cutscene と同じ横向き判定）ではイラストを左、
+   選択ウインドウを右に、それぞれ重ならずに並べる。 */
 .plant-select-overlay {
   position: absolute;
   inset: 0;
@@ -261,11 +264,31 @@
   z-index: 1000;
   background: rgba(30, 40, 25, 0.55);
   display: flex;
+  flex-direction: column;
+}
+.plant-select-hero {
+  flex: 0 0 auto;
+  height: 32%;
+  display: flex;
   align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+.plant-select-hero img {
+  height: 100%;
+  width: auto;
+  max-width: 85%;
+  object-fit: contain;
+  display: block;
+}
+.plant-select-hero.img-error {
+  background: transparent;
 }
 .plant-select-panel {
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  max-height: 82%;
   overflow-y: auto;
   background: var(--color-surface);
   border-radius: 20px 20px 0 0;
@@ -307,9 +330,6 @@
   width: 56px;
   height: 56px;
   flex: 0 0 auto;
-}
-.plant-select-thumb.img-error::before {
-  font-size: 34px;
 }
 .plant-select-info {
   flex: 1 1 auto;
@@ -400,16 +420,28 @@
     gap: 6px;
   }
 
-  /* 縦持ち用の下からせり上がるシートではなく、中央カード表示に切り替える */
+  /* 横向きでは、イラストを左・選択ウインドウを右に並べる（上下ではなく左右分割） */
   .plant-select-overlay {
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
     padding: 16px;
+    gap: 16px;
+  }
+  .plant-select-hero {
+    height: 100%;
+    width: 38%;
+    align-items: center;
+  }
+  .plant-select-hero img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 90%;
   }
   .plant-select-panel {
-    width: 100%;
-    max-width: 420px;
-    max-height: 90%;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    max-height: 100%;
     border-radius: 20px;
   }
 }

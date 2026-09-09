@@ -60,6 +60,7 @@ window.UI = (function () {
     el.fertilizerImg = document.getElementById("fertilizerImg");
     el.plantSelectOverlay = document.getElementById("plantSelectOverlay");
     el.plantSelectList = document.getElementById("plantSelectList");
+    el.plantSelectHeroImg = document.getElementById("plantSelectHeroImg");
   }
 
   function renderStaticLayers() {
@@ -69,6 +70,7 @@ window.UI = (function () {
     el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", "char-sprite");
     el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
     el.waterImg.src = window.CONFIG.WATER_BUTTON_IMAGE;
+    el.plantSelectHeroImg.src = window.CONFIG.PLANT_SELECT_IMAGE;
     // キャラクター同士の重なり順はランダム。ただし鉢は常にキャラクターより手前になる
     el.charMother.style.zIndex = randomZIndex("char");
     el.charFamily.style.zIndex = randomZIndex("char");

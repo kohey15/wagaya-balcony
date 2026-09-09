@@ -21,24 +21,18 @@
       { "speaker": "father", "text": "毎日お世話してるからだね。" }
     ]
   ],
-  "mealScene": [
+  "endingScene": [
     [
-      { "speaker": "father", "text": "いただきます。今日の野菜もおいしいね。" },
-      { "speaker": "daughter", "text": "わたしがとった野菜だよ！" },
-      { "speaker": "mother", "text": "がんばって育てたもんね。" }
+      { "speaker": "mother", "text": "今日は特別な晩ごはんにしよう。ベランダの野菜をたくさん使ってね。" },
+      { "speaker": "daughter", "text": "わたし、こんなにたくさん育てられるようになったんだね！" },
+      { "speaker": "father", "text": "本当にすごいよ。じしんがついてきた証拠だね。" },
+      { "speaker": "daughter", "text": "いただきます！これからもベランダのお世話、がんばるね！" }
     ],
     [
-      { "speaker": "mother", "text": "今日の晩ごはんは、ベランダの野菜たっぷりだよ。" },
-      { "speaker": "daughter", "text": "やったー！ いただきます！" },
-      { "speaker": "father", "text": "うん、うまい。" }
-    ],
-    [
-      { "speaker": "daughter", "text": "今日もおいしいごはん、ありがとう！" },
-      { "speaker": "father", "text": "こちらこそ、おいしい野菜をありがとう。" }
-    ],
-    [
-      { "speaker": "mother", "text": "今日の野菜、色もきれいだね。" },
-      { "speaker": "daughter", "text": "明日も見に行くの、たのしみ！" }
+      { "speaker": "father", "text": "気づけば、すっかりベランダ農家だね。" },
+      { "speaker": "daughter", "text": "毎日お世話するの、たのしかった！" },
+      { "speaker": "mother", "text": "その気持ち、これからも大事にしようね。今日はみんなでお祝いごはんだよ。" },
+      { "speaker": "daughter", "text": "やったー！いただきます！" }
     ]
   ],
   "nutritionIntro": [

@@ -41,11 +41,17 @@ window.CONFIG = (function () {
   var OPENING_IMAGE = "assets/backgrounds/opening.jpg";
   var FERTILIZER_BUTTON_IMAGE = "assets/ui/hiryou.webp";
   var WATER_BUTTON_IMAGE = "assets/ui/mizuyari.webp";
+  // 鉢選択シーンで、選択ウインドウと重ならない側に添える父と娘のイラスト
+  var PLANT_SELECT_IMAGE = "assets/characters/select_family.webp";
 
-  // 特定の会話シーン中だけ、ベランダの背景を差し替える先
+  // ゲーム全体は5つの基本シーンで構成される：
+  // 1) オープニング（index.html） 2) 栽培シーン（ベランダ・通常時）
+  // 3) 次の植物選択シーン（じしんが一定を超えたら） 4) 収穫物の解説シーン
+  // 5) エンディングシーン（じしんが最大まで育ったら1回だけ）
+  // ここでは 3〜5 の会話シーン中に切り替えるベランダ背景を定義する。
   var SCENE_BACKGROUNDS = {
     nutrition: "assets/backgrounds/kaisetu.jpg",
-    meal: "assets/backgrounds/syokuji.jpg"
+    ending: "assets/backgrounds/syokuji.jpg"
   };
 
   return {
@@ -57,6 +63,7 @@ window.CONFIG = (function () {
     OPENING_IMAGE: OPENING_IMAGE,
     FERTILIZER_BUTTON_IMAGE: FERTILIZER_BUTTON_IMAGE,
     WATER_BUTTON_IMAGE: WATER_BUTTON_IMAGE,
+    PLANT_SELECT_IMAGE: PLANT_SELECT_IMAGE,
     SCENE_BACKGROUNDS: SCENE_BACKGROUNDS
   };
 })();

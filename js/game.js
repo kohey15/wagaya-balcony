@@ -42,6 +42,7 @@ window.Game = (function () {
       careUsedToday: false,
       lastCareType: null,
       pendingPlantSelection: false,
+      endingShown: false,
       plants: plantEntries
     };
   }
@@ -218,9 +219,16 @@ window.Game = (function () {
     return withScene(scene, "nutrition");
   }
 
-  /** 各ターンの最後に必ず挟む、その日収穫した野菜を使った食事シーン */
-  function getMealScene() {
-    return withScene(window.Events.getMealScene(), "meal");
+  /**
+   * じしんが最大まで育ったら、1回だけエンディングシーンを挟む。
+   * ゲームの5シーン構成（オープニング／栽培／植物選択／収穫解説／エンディング）の最後にあたる。
+   * ゲームを終わらせるものではなく、その後も通常どおり遊び続けられる。
+   */
+  function checkEndingAndGetLines() {
+    if (state.endingShown) return [];
+    if (state.jishin < balance.jishin.max) return [];
+    state.endingShown = true;
+    return withScene(window.Events.getEndingScene(), "ending");
   }
 
   /**
@@ -270,7 +278,7 @@ window.Game = (function () {
    */
   function autoHarvestNow() {
     var result = performAutoHarvest();
-    var lines = result.lines.concat(checkPotUnlockAndGetLines());
+    var lines = result.lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
     window.Save.store(state);
     return { lines: lines, gained: result.gained, leveledUp: result.leveledUp, harvestedAny: result.harvestedAny };
   }
@@ -307,7 +315,7 @@ window.Game = (function () {
 
     var lines = window.Events.getCare(type);
     if (levelInfo.leveledUp) lines = lines.concat(levelInfo.lines);
-    lines = lines.concat(checkPotUnlockAndGetLines());
+    lines = lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
 
     window.Save.store(state);
     return { ok: true, lines: lines, jishinGained: gained, leveledUp: levelInfo.leveledUp };
@@ -360,10 +368,7 @@ window.Game = (function () {
       lines = lines.concat(window.Events.getLowGenkiHint());
     }
 
-    lines = lines.concat(checkPotUnlockAndGetLines());
-
-    // 各ターンの最後には、収穫した野菜を食べる食事シーンを必ず挟む。
-    lines = lines.concat(getMealScene());
+    lines = lines.concat(checkPotUnlockAndGetLines(), checkEndingAndGetLines());
 
     window.Save.store(state);
     return { day: state.day, lines: lines, leveledUp: harvestResult.leveledUp };

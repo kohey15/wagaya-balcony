@@ -81,16 +81,17 @@
 - [x] 水やりボタンも画像化し、肥料ボタンと同じ仕組みで縦横比に合わせた専用サイズに（Ver0.2）
 - [x] 植物7種すべてを実画像に差し替え（Ver0.2）
 - [x] 「翌日へ」ボタンを廃止。水・肥料ボタンだけが日を進める唯一の手段に（Ver0.2）
-- [x] 栄養解説シーン・食事シーンで、専用のイラスト背景に切り替わる仕組みを追加。切り替え中は通常のキャラ・鉢を隠し、シーンのイラストだけを表示する（Ver0.2）
-- [x] 各ターンの最後（翌日へ進むタイミング）に、その日の野菜を使った食事シーンを必ず1つ挟むように（Ver0.2）
+- [x] 収穫物の解説シーン・エンディングシーンで、専用のイラスト背景に切り替わる仕組みを追加。切り替え中は通常のキャラ・鉢を隠し、シーンのイラストだけを表示する（Ver0.2）
 - [x] 水・肥料ボタンは、会話が流れている間（収穫〜翌日への一連の演出、鉢選択シーンを含む）ロックされ、アイドル状態に戻ってから解放される（Ver0.2）
 - [x] キャラクター・鉢の表示をひとまわり大きくし、重なり順は要素ごとにランダム（キャラが手前になることも、鉢が手前になることもある）に変更（Ver0.2）
 - [x] 全シーンから絵文字を撤廃。画像が読み込めない場合の代替表示も、絵文字を使わないCSSだけのプレースホルダー（グラデーションの箱）に統一（Ver0.2）
 - [x] 鉢は常にキャラクターより手前に表示されるよう調整（キャラクター同士の重なり順のみランダム）（Ver0.2）
 - [x] 鉢選択オーバーレイのz-indexを鉢より確実に高くし、ベランダの鉢が選択ウインドウの上に表示されてしまう不具合を修正（Ver0.2）
-- [x] 父娘のイラスト（char-family）の位置を少し上寄りに調整（Ver0.2）
+- [x] 父娘のイラスト（char-family）の位置を上寄りに調整（Ver0.2）
 - [x] 元気の状態を示す色の点（バッジ）を削除。「元気が少ない状態」は引き続き植物の彩度をわずかに落とす表現だけで伝える（Ver0.2）
 - [x] CSS（common.css/game.css）に`?v=`のバージョンクエリを付与し、更新後もブラウザキャッシュで古いスタイルが残らないよう修正（Ver0.2）
+- [x] ゲーム全体を5つの基本シーン（オープニング／栽培／植物選択／収穫物の解説／エンディング）で構成するよう整理。「食事シーン」を毎ターンではなく、じしんが最大まで育ったときに1回だけ流れる「エンディングシーン」に変更（Ver0.2）
+- [x] 植物選択シーンに、スマホで一緒に選ぶ父娘のイラストを追加。縦画面では上、横画面では左に配置し、選択ウインドウと重ならないようレイアウトを分割（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
@@ -130,8 +131,9 @@
 | 母の立ち絵 | `assets/characters/mother.webp` | `js/config.js` の `CHARACTER_ASSETS.mother` |
 | 肥料ボタンの画像 | `assets/ui/hiryou.webp` | `js/config.js` の `FERTILIZER_BUTTON_IMAGE` |
 | 水やりボタンの画像 | `assets/ui/mizuyari.webp` | `js/config.js` の `WATER_BUTTON_IMAGE` |
-| 栄養解説シーンの背景 | `assets/backgrounds/kaisetu.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.nutrition` |
-| 食事シーンの背景 | `assets/backgrounds/syokuji.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.meal` |
+| 収穫物の解説シーンの背景 | `assets/backgrounds/kaisetu.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.nutrition` |
+| エンディングシーンの背景 | `assets/backgrounds/syokuji.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.ending` |
+| 植物選択シーンのイラスト | `assets/characters/select_family.webp` | `js/config.js` の `PLANT_SELECT_IMAGE` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
 | いちごの画像（透過） | `assets/plants/ichigo.webp` | `data/plants.json` の `ichigo.image` |
@@ -157,12 +159,22 @@
 - 前後を挟む「ねえ、これってどんな栄養があるの？」「へえ、知らなかった！」のような定型セリフは `data/events.json` の `nutritionIntro` / `nutritionOutro` から選ばれる（こちらもランダム）。
 - 新しい植物を追加する際は `nutritionFacts` に `[{ "speaker": "mother", "text": "…" }]` の形式で1つ以上追加すればよい（未設定の場合はそのシーンは出ない）。栄養解説は母のセリフという設定なので `speaker` は `mother` を使う。
 
-## 専用背景に切り替わる会話シーン（栄養解説・食事）の仕組み
+## ゲーム全体の5シーン構成と、専用背景に切り替わる仕組み
+
+ゲームは次の5つの基本シーンで構成されている。
+
+1. **オープニング**（`index.html`）：タイトル画面のヒーロー画像。
+2. **栽培シーン**（`game.html` の通常時）：ベランダで水やり・肥料・収穫を行う、繰り返し遊ぶメインの場面。
+3. **次の植物選択シーン**：じしんが `potUnlockThresholds` のしきい値を超えるたびに移行。
+4. **収穫物の解説シーン**：収穫のたびに一定確率（`nutritionSceneChance`）で挟まる、母と娘のキッチンでの栄養解説。
+5. **エンディングシーン**：じしんが最大値まで育ったときに1回だけ流れる、家族でのお祝いごはんの場面。ゲームを終了させるものではなく、その後も通常どおり遊び続けられる。
+
+3〜5のシーンは、以下の仕組みでベランダの背景を専用イラストに切り替えている。
 
 - 会話データの各セリフは `{ speaker, text }` の他に、任意で `scene` を持てる（`js/game.js` の `withScene()` が付与）。
-- `js/ui.js` はセリフを1行表示するたびに `scene` を見て、`js/config.js` の `SCENE_BACKGROUNDS`（`nutrition` → `kaisetu.jpg`、`meal` → `syokuji.jpg`）に従って背景画像を切り替える。`scene` が無い（通常の）セリフでは、いつものベランダ背景に戻る。
+- `js/ui.js` はセリフを1行表示するたびに `scene` を見て、`js/config.js` の `SCENE_BACKGROUNDS`（`nutrition` → `kaisetu.jpg`、`ending` → `syokuji.jpg`）に従って背景画像を切り替える。`scene` が無い（通常の）セリフでは、いつものベランダ背景に戻る。
 - `scene` 中はステージに `scene-cutscene` クラスが付き、`css/game.css` の定義により通常のキャラクター（父娘・母）と鉢は非表示になる（イラスト側にすでにキャラクターが描かれているため）。
-- 食事シーンは `nextDay()`（＝日をまたぐたび）の最後に必ず1つ挟まる。会話文言は `data/events.json` の `mealScene` から配列単位でランダムに選ばれる。
+- エンディングシーンは `state.jishin` が `balance.jishin.max` に達した最初のタイミングで1回だけ発生する（`state.endingShown` で管理）。会話文言は `data/events.json` の `endingScene` から配列単位でランダムに選ばれる。
 - 新しいシーン種別を増やしたい場合は、①`SCENE_BACKGROUNDS`に背景を追加、②該当セリフを`withScene(lines, "新しい名前")`で包む、の2手順でよい。
 
 ## 栽培のコツ（tips.html）の仕組み
