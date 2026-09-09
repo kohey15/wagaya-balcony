@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>わが家のベランダ | 栽培のコツ</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+  .page {
+    padding: 24px 20px 40px;
+  }
+  .page h1 {
+    font-size: 1.3rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 6px;
+  }
+  .progress-note {
+    font-size: 0.85rem;
+    color: var(--color-text-sub);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .complete-banner {
+    background: var(--color-secondary);
+    color: #4a3400;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .tip-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tip-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .tip-card.locked {
+    opacity: 0.6;
+  }
+  .tip-thumb {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    background: var(--color-bg);
+  }
+  .tip-thumb.sprite.img-error::before {
+    font-size: 28px;
+  }
+  .tip-info h2 {
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+  }
+  .tip-info p {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--color-text-strong);
+  }
+  .tip-info .locked-note {
+    font-size: 0.78rem;
+    color: var(--color-text-sub);
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+  <div class="app-frame">
+    <div class="page">
+      <h1>🌿 栽培のコツ図鑑</h1>
+      <p class="progress-note" id="progressNote">読み込み中…</p>
+      <div class="tip-grid" id="tipGrid"></div>
+      <a class="back-link" href="game.html">← ベランダにもどる</a>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/save.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      function ownedPlantIds() {
+        var save = window.Save.load();
+        if (!save || !save.plants) return [];
+        return Object.keys(save.plants).map(function (slotId) {
+          return save.plants[slotId].plantId;
+        });
+      }
+
+      fetch(window.CONFIG.DATA_PATHS.plants, { cache: "no-cache" })
+        .then(function (r) { return r.json(); })
+        .then(function (plants) {
+          var owned = ownedPlantIds();
+          var allIds = Object.keys(plants);
+          var isComplete = allIds.length > 0 && allIds.every(function (id) {
+            return owned.indexOf(id) !== -1;
+          });
+
+          var progressNote = document.getElementById("progressNote");
+          var grid = document.getElementById("tipGrid");
+
+          if (isComplete) {
+            progressNote.innerHTML =
+              '<div class="complete-banner">🎉 全' + allIds.length + '種類コンプリート！育て方のコツが読めるようになったよ。</div>';
+          } else {
+            progressNote.textContent =
+              "すべての植物を集めると、育て方のコツが読めるようになります（" + owned.length + " / " + allIds.length + " 種類）";
+          }
+
+          grid.innerHTML = allIds
+            .map(function (id) {
+              var p = plants[id];
+              var hasIt = owned.indexOf(id) !== -1;
+
+              if (!isComplete) {
+                // コンプリート前は、収穫済みかどうかのチェックリストのみ表示（コツ本文は隠す）
+                return (
+                  '<div class="tip-card ' + (hasIt ? "" : "locked") + '">' +
+                  '<div class="tip-thumb sprite" data-emoji="' + (hasIt ? p.emojiFallback : "🔒") + '">' +
+                  (hasIt
+                    ? '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">'
+                    : "") +
+                  "</div>" +
+                  '<div class="tip-info">' +
+                  "<h2>" + (hasIt ? p.name : "？？？") + "</h2>" +
+                  '<p class="locked-note">' + (hasIt ? "収穫ずみ。すべて集めるとコツが読めるよ。" : "まだ迎えていない植物です。") + "</p>" +
+                  "</div>" +
+                  "</div>"
+                );
+              }
+
+              return (
+                '<div class="tip-card">' +
+                '<div class="tip-thumb sprite" data-emoji="' + p.emojiFallback + '">' +
+                '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
+                "</div>" +
+                '<div class="tip-info">' +
+                "<h2>" + p.name + "</h2>" +
+                "<p>" + (p.growingTip || "") + "</p>" +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+        })
+        .catch(function (err) {
+          console.error("[tips.html] データ読み込みに失敗しました", err);
+          document.getElementById("progressNote").textContent = "データの読み込みに失敗しました。";
+        });
+    })();
+  </script>
+</body>
+</html>

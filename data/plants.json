@@ -9,9 +9,10 @@
     "productUrl": "https://example.com/placeholder-product/mizuna",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "水菜にはビタミンCやカルシウムがたっぷり入っているんだよ。" }],
-      [{ "speaker": "father", "text": "水菜は生でも食べられるくらい、みずみずしくて栄養満点なんだ。" }]
-    ]
+      [{ "speaker": "mother", "text": "水菜にはビタミンCやカルシウムがたっぷり入っているんだよ。" }],
+      [{ "speaker": "mother", "text": "水菜は生でも食べられるくらい、みずみずしくて栄養満点なんだ。" }]
+    ],
+    "growingTip": "日当たりと風通しのよい場所に置き、土の表面が乾いたらたっぷり水やりをしましょう。追肥は2週間に1回くらいが目安です。"
   },
   "hourensou": {
     "id": "hourensou",
@@ -23,9 +24,10 @@
     "productUrl": "https://example.com/placeholder-product/hourensou",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "ほうれん草には鉄分が多くて、元気な血をつくる手助けをしてくれるんだ。" }],
-      [{ "speaker": "father", "text": "ほうれん草はベータカロテンも豊富で、目や肌にもいいんだよ。" }]
-    ]
+      [{ "speaker": "mother", "text": "ほうれん草には鉄分が多くて、元気な血をつくる手助けをしてくれるんだ。" }],
+      [{ "speaker": "mother", "text": "ほうれん草はベータカロテンも豊富で、目や肌にもいいんだよ。" }]
+    ],
+    "growingTip": "涼しい気候を好むので、暑い時期は半日陰に置いてあげましょう。土が乾ききる前に水をあげると元気に育ちます。"
   },
   "ichigo": {
     "id": "ichigo",
@@ -37,9 +39,10 @@
     "productUrl": "https://example.com/placeholder-product/ichigo",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "いちごはビタミンCがとても多くて、レモンにも負けないくらいなんだよ。" }],
-      [{ "speaker": "father", "text": "いちごの粒々は種で、1つの実に200個くらいついているんだって。" }]
-    ]
+      [{ "speaker": "mother", "text": "いちごはビタミンCがとても多くて、レモンにも負けないくらいなんだよ。" }],
+      [{ "speaker": "mother", "text": "いちごの粒々は種で、1つの実に200個くらいついているんだって。" }]
+    ],
+    "growingTip": "実が大きくなってきたら、重みで垂れて土につかないよう、支柱やネットで軽く支えてあげましょう。"
   },
   "kukibrokkori": {
     "id": "kukibrokkori",
@@ -51,9 +54,10 @@
     "productUrl": "https://example.com/placeholder-product/kukibrokkori",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "茎ブロッコリーはビタミンCと食物繊維がたっぷりなんだ。" }],
-      [{ "speaker": "father", "text": "茎の部分は甘みが強くて、実はいちばん栄養があるところなんだよ。" }]
-    ]
+      [{ "speaker": "mother", "text": "茎ブロッコリーはビタミンCと食物繊維がたっぷりなんだ。" }],
+      [{ "speaker": "mother", "text": "茎の部分は甘みが強くて、実はいちばん栄養があるところなんだよ。" }]
+    ],
+    "growingTip": "中心の茎を収穫したあとも、脇から次々と新しい茎が伸びてきます。こまめに摘み取ると長く収穫を楽しめます。"
   },
   "iceplant": {
     "id": "iceplant",
@@ -65,9 +69,10 @@
     "productUrl": "https://example.com/placeholder-product/iceplant",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "アイスプラントの葉のツブツブには、ミネラルがぎゅっと詰まっているんだよ。" }],
-      [{ "speaker": "father", "text": "しょっぱく感じるのは、土や水のミネラルをたくさん溜め込んでいるからなんだ。" }]
-    ]
+      [{ "speaker": "mother", "text": "アイスプラントの葉のツブツブには、ミネラルがぎゅっと詰まっているんだよ。" }],
+      [{ "speaker": "mother", "text": "しょっぱく感じるのは、土や水のミネラルをたくさん溜め込んでいるからなんだ。" }]
+    ],
+    "growingTip": "乾燥にとても強いので、水のあげすぎに注意しましょう。土がしっかり乾いてから、少しだけ水をあげるのがコツです。"
   },
   "basil": {
     "id": "basil",
@@ -79,9 +84,10 @@
     "productUrl": "https://example.com/placeholder-product/basil",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "バジルの香りには、気持ちを落ち着かせてくれる力があるんだって。" }],
-      [{ "speaker": "father", "text": "バジルにもベータカロテンが入っていて、体にいいハーブなんだよ。" }]
-    ]
+      [{ "speaker": "mother", "text": "バジルの香りには、気持ちを落ち着かせてくれる力があるんだって。" }],
+      [{ "speaker": "mother", "text": "バジルにもベータカロテンが入っていて、体にいいハーブなんだよ。" }]
+    ],
+    "growingTip": "花が咲くと葉がかたくなってしまうので、つぼみを見つけたら早めに摘み取ってあげましょう。"
   },
   "parsley": {
     "id": "parsley",
@@ -93,8 +99,9 @@
     "productUrl": "https://example.com/placeholder-product/parsley",
     "productNote": "※ 商品ページは準備中です（プレースホルダー）",
     "nutritionFacts": [
-      [{ "speaker": "father", "text": "パセリは少ししか食べなくても、ビタミンCや鉄分がぎっしり詰まっているんだ。" }],
-      [{ "speaker": "father", "text": "彩りに乗せるだけの葉っぱに見えて、実はとても栄養が濃いんだよ。" }]
-    ]
+      [{ "speaker": "mother", "text": "パセリは少ししか食べなくても、ビタミンCや鉄分がぎっしり詰まっているんだ。" }],
+      [{ "speaker": "mother", "text": "彩りに乗せるだけの葉っぱに見えて、実はとても栄養が濃いんだよ。" }]
+    ],
+    "growingTip": "外側の大きな葉から少しずつ摘み取ると、中心から新しい葉が育ち続けます。"
   }
 }

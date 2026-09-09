@@ -49,10 +49,12 @@ window.Game = (function () {
   /** 起動時のデータ読み込み（JSON）。失敗しても最低限のフォールバックで進める。 */
   function loadData() {
     var paths = window.CONFIG.DATA_PATHS;
+    // JSONの更新が古いキャッシュのまま反映されないことがあるため、常にサーバーへ再検証させる
+    var fetchOpts = { cache: "no-cache" };
     return Promise.all([
-      fetch(paths.balance).then(function (r) { return r.json(); }),
-      fetch(paths.plants).then(function (r) { return r.json(); }),
-      fetch(paths.events).then(function (r) { return r.json(); })
+      fetch(paths.balance, fetchOpts).then(function (r) { return r.json(); }),
+      fetch(paths.plants, fetchOpts).then(function (r) { return r.json(); }),
+      fetch(paths.events, fetchOpts).then(function (r) { return r.json(); })
     ]).then(function (results) {
       balance = results[0];
       plants = results[1];

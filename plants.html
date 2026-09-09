@@ -68,7 +68,7 @@
   <script>
     (function () {
       "use strict";
-      fetch(window.CONFIG.DATA_PATHS.plants)
+      fetch(window.CONFIG.DATA_PATHS.plants, { cache: "no-cache" })
         .then(function (r) { return r.json(); })
         .then(function (plants) {
           var list = document.getElementById("plantList");

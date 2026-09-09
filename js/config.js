@@ -31,6 +31,7 @@ window.CONFIG = (function () {
 
   var CHARACTER_ASSETS = {
     father: { image: "assets/characters/father.webp", emojiFallback: "👨" },
+    mother: { image: "assets/characters/mother.webp", emojiFallback: "👩" },
     daughter: { image: "assets/characters/daughter.webp", emojiFallback: "👧" }
   };
 

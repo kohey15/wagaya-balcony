@@ -8,7 +8,7 @@ window.UI = (function () {
   var el = {}; // DOM参照キャッシュ
   var dialogueQueue = [];
   var dialogueTimer = null; // 会話の自動送りタイマー
-  var speakerLabel = { father: "父", daughter: "娘" };
+  var speakerLabel = { father: "父", mother: "母", daughter: "娘" };
 
   /**
    * 画像が読み込めなかった場合に絵文字プレースホルダーへ差し替えるための
@@ -38,6 +38,7 @@ window.UI = (function () {
     el.resetBtn = document.getElementById("resetBtn");
     el.bgLayer = document.getElementById("bgLayer");
     el.charFather = document.getElementById("charFather");
+    el.charMother = document.getElementById("charMother");
     el.charDaughter = document.getElementById("charDaughter");
     el.plantLayer = document.getElementById("plantLayer");
     el.dialogueBox = document.getElementById("dialogueBox");
@@ -55,6 +56,7 @@ window.UI = (function () {
     el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.BACKGROUND_ASSET + "')";
     var ch = window.CONFIG.CHARACTER_ASSETS;
     el.charFather.innerHTML = spriteHtml(ch.father.image, "父", ch.father.emojiFallback, "char-sprite");
+    el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", ch.mother.emojiFallback, "char-sprite");
     el.charDaughter.innerHTML = spriteHtml(ch.daughter.image, "娘", ch.daughter.emojiFallback, "char-sprite");
   }
 

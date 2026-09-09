@@ -21,6 +21,7 @@
 ├ game.html           … ゲーム本編
 ├ about.html          … コンセプト説明
 ├ plants.html         … 植物図鑑（商品リンクのプレースホルダー含む）
+├ tips.html           … 栽培のコツ（全植物コンプリートで解放）
 ├ css/
 │  ├ common.css       … 全ページ共通のリセット・ボタン・レイアウト
 │  └ game.css         … ゲーム画面専用レイアウト（1画面に収める配分）
@@ -72,6 +73,9 @@
 - [x] じしんが一定のしきい値（`balance.json`の`potUnlockThresholds`）を超えると「新しい鉢を迎えるシーン」に移行し、未所持の植物から選んで鉢を追加できる（Ver0.2）
 - [x] コマンドを「水をあげる」「肥料をあげる」の2つに簡略化し、収穫は自動化（Ver0.2）
 - [x] 収穫のあと一定確率（`balance.json`の`nutritionSceneChance`、既定35%）で、収穫した植物の栄養素をひとことで紹介する会話シーンが挟まる（Ver0.2）
+- [x] 栄養解説は「母」が担当。父・娘に加えて母のキャラクターをベランダ舞台の奥に追加（Ver0.2）
+- [x] 全7種類の植物をコンプリートすると「栽培のコツ」ページ（tips.html）が解放される。それまでは収穫済みかどうかのチェックリスト表示のみ（Ver0.2）
+- [x] JSONデータ（plants/events/balance）の取得を`cache:"no-cache"`にし、更新後もブラウザキャッシュで古い内容が残らないよう修正（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
@@ -101,6 +105,7 @@
 | --- | --- | --- |
 | ベランダ背景 | `assets/backgrounds/balcony.webp` | `js/config.js` の `BACKGROUND_ASSET` |
 | 父の立ち絵 | `assets/characters/father.webp` | `js/config.js` の `CHARACTER_ASSETS.father` |
+| 母の立ち絵 | `assets/characters/mother.webp` | `js/config.js` の `CHARACTER_ASSETS.mother` |
 | 娘の立ち絵 | `assets/characters/daughter.webp` | `js/config.js` の `CHARACTER_ASSETS.daughter` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
@@ -125,7 +130,14 @@
 - 収穫のたびに `balance.json` の `nutritionSceneChance`（既定0.35＝35%）の確率で、収穫した植物のうち1つについて栄養素を紹介する短い会話が挟まる。
 - 植物ごとの豆知識は `data/plants.json` の各植物の `nutritionFacts` に配列で持たせてあり、複数用意しておくとランダムに選ばれてバリエーションが出る。
 - 前後を挟む「ねえ、これってどんな栄養があるの？」「へえ、知らなかった！」のような定型セリフは `data/events.json` の `nutritionIntro` / `nutritionOutro` から選ばれる（こちらもランダム）。
-- 新しい植物を追加する際は `nutritionFacts` に `[{ "speaker": "father", "text": "…" }]` の形式で1つ以上追加すればよい（未設定の場合はそのシーンは出ない）。
+- 新しい植物を追加する際は `nutritionFacts` に `[{ "speaker": "mother", "text": "…" }]` の形式で1つ以上追加すればよい（未設定の場合はそのシーンは出ない）。栄養解説は母のセリフという設定なので `speaker` は `mother` を使う。
+
+## 栽培のコツ（tips.html）の仕組み
+
+- `data/plants.json` の各植物が持つ `growingTip`（実際の育て方のコツ、1文）を、全7種類を収穫し終えると `tips.html` で読めるようになる。
+- 判定はそのページ単体で行っており（`js/save.js` でセーブデータを読み、所持している植物IDと `plants.json` の全IDを比較）、ゲーム側の状態管理には影響しない。
+- コンプリート前は、収穫済みの植物名だけが分かるチェックリスト表示になり、コツ本文（`growingTip`）は表示されない。
+- 新しい植物を追加する際は `growingTip` も一緒に用意すること。
 
 ## 次に実装すべき Ver 0.3 の内容
 

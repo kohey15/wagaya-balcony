@@ -112,6 +112,14 @@
 .char-daughter {
   right: 6%;
 }
+.char-mother {
+  /* ドアの奥から顔を出したイメージで、鉢の邪魔にならない上部に配置 */
+  left: 50%;
+  top: 3%;
+  width: 18%;
+  height: 30%;
+  transform: translateX(-50%);
+}
 .char-sprite.img-error::before {
   font-size: min(46px, 70%);
 }
