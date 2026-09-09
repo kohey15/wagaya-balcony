@@ -1,0 +1,33 @@
+{
+  "mvpDays": 5,
+  "jishin": {
+    "initial": 0,
+    "max": 100,
+    "gainHarvestFirst": 15,
+    "gainHarvest": 6,
+    "gainWater": 3,
+    "gainFertilizer": 4,
+    "gainWatch": 2,
+    "levels": [
+      { "threshold": 0, "title": "はじめの一歩" },
+      { "threshold": 20, "title": "すこしずつじしんがついてきた" },
+      { "threshold": 40, "title": "がんばりやさん" },
+      { "threshold": 60, "title": "たのもしいベランダ農家" },
+      { "threshold": 80, "title": "ベランダめいじん" }
+    ]
+  },
+  "genki": {
+    "initial": 80,
+    "max": 100,
+    "min": 0,
+    "decayPerDay": 15,
+    "waterGain": 30,
+    "fertilizerGain": 40,
+    "watchGain": 10,
+    "states": [
+      { "min": 65, "emoji": "😊", "label": "とても元気" },
+      { "min": 35, "emoji": "🙂", "label": "元気" },
+      { "min": 0, "emoji": "😐", "label": "少し元気がない" }
+    ]
+  }
+}

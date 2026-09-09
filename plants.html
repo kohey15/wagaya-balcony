@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>わが家のベランダ | 植物図鑑</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+  .page {
+    padding: 24px 20px 40px;
+  }
+  .page h1 {
+    font-size: 1.3rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 18px;
+  }
+  .plant-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .plant-card .thumb {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 auto;
+    border-radius: 12px;
+    background: var(--color-bg);
+  }
+  .plant-card .thumb.sprite.img-error::before {
+    font-size: 40px;
+  }
+  .plant-card h2 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+  }
+  .plant-card p {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-text-strong);
+  }
+  .product-note {
+    font-size: 0.72rem;
+    color: var(--color-text-sub);
+    margin-top: 6px;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+  <div class="app-frame">
+    <div class="page">
+      <h1>🌿 植物図鑑</h1>
+      <div id="plantList"></div>
+      <a class="back-link" href="index.html">← タイトルへもどる</a>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      fetch(window.CONFIG.DATA_PATHS.plants)
+        .then(function (r) { return r.json(); })
+        .then(function (plants) {
+          var list = document.getElementById("plantList");
+          Object.keys(plants).forEach(function (id) {
+            var p = plants[id];
+            var card = document.createElement("div");
+            card.className = "plant-card";
+            card.innerHTML =
+              '<div class="thumb sprite" data-emoji="' + p.emojiFallback + '">' +
+              '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
+              "</div>" +
+              '<div class="plant-info">' +
+              "<h2>" + p.name + "</h2>" +
+              "<p>" + p.description + "</p>" +
+              '<a class="btn btn-secondary" href="' + p.productUrl + '" target="_blank" rel="noopener noreferrer">本物の鉢を見てみる</a>' +
+              '<div class="product-note">' + (p.productNote || "") + "</div>" +
+              "</div>";
+            list.appendChild(card);
+          });
+        })
+        .catch(function (err) {
+          console.error("[plants.html] データ読み込みに失敗しました", err);
+          document.getElementById("plantList").textContent = "植物データの読み込みに失敗しました。";
+        });
+    })();
+  </script>
+</body>
+</html>

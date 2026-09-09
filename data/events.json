@@ -1,0 +1,88 @@
+{
+  "introDay1": [
+    { "speaker": "daughter", "text": "これ、とっていい？" },
+    { "speaker": "father", "text": "もちろん。もう食べられるよ。" }
+  ],
+  "firstHarvest": [
+    { "speaker": "daughter", "text": "わたしがとれた！" },
+    { "speaker": "father", "text": "すごいじゃないか。じょうずにとれたね。" }
+  ],
+  "harvest": [
+    [
+      { "speaker": "daughter", "text": "今日もとれたよ！" },
+      { "speaker": "father", "text": "ありがとう。晩ごはんに使おうね。" }
+    ],
+    [
+      { "speaker": "daughter", "text": "見て、葉っぱがいっぱい！" },
+      { "speaker": "father", "text": "よく育ってるね。よく見てるからだよ。" }
+    ],
+    [
+      { "speaker": "daughter", "text": "また食べられるようになってる！" },
+      { "speaker": "father", "text": "毎日お世話してるからだね。" }
+    ]
+  ],
+  "care": {
+    "water": [
+      [
+        { "speaker": "daughter", "text": "お水あげるね。" },
+        { "speaker": "father", "text": "上手だね。土がしっとりしてきた。" }
+      ],
+      [
+        { "speaker": "daughter", "text": "ごくごく飲んでる！" },
+        { "speaker": "father", "text": "気持ちよさそうだね。" }
+      ]
+    ],
+    "fertilizer": [
+      [
+        { "speaker": "daughter", "text": "栄養もあげとくね。" },
+        { "speaker": "father", "text": "いいね。元気に育ちそうだ。" }
+      ],
+      [
+        { "speaker": "daughter", "text": "これでもっと大きくなるかな？" },
+        { "speaker": "father", "text": "きっとなるよ。" }
+      ]
+    ],
+    "watch": [
+      [
+        { "speaker": "daughter", "text": "今日はようすを見るだけにする。" },
+        { "speaker": "father", "text": "それも大事なお世話だよ。" }
+      ],
+      [
+        { "speaker": "daughter", "text": "元気にしてるか、じっくり見てみる。" },
+        { "speaker": "father", "text": "変化に気づけるようになったね。" }
+      ]
+    ]
+  },
+  "careBlocked": [
+    { "speaker": "daughter", "text": "今日のお世話はもうしたよ。" },
+    { "speaker": "father", "text": "明日もよろしくね。" }
+  ],
+  "harvestBlocked": [
+    { "speaker": "daughter", "text": "今日はもうとったよ。" },
+    { "speaker": "father", "text": "また明日、見てみよう。" }
+  ],
+  "dayStart": {
+    "2": [
+      { "speaker": "father", "text": "おはよう。今日もベランダを見に行こうか。" }
+    ],
+    "3": [
+      { "speaker": "daughter", "text": "水菜さん、今日も元気かな？" }
+    ],
+    "4": [
+      { "speaker": "father", "text": "だいぶお世話に慣れてきたね。" }
+    ],
+    "5": [
+      { "speaker": "daughter", "text": "毎日見るの、たのしみになってきた！" }
+    ]
+  },
+  "milestone": {
+    "6": [
+      { "speaker": "father", "text": "5日間、よくがんばったね。" },
+      { "speaker": "daughter", "text": "まだまだ育てたい！つづけてもいい？" },
+      { "speaker": "father", "text": "もちろん。これからも一緒にお世話しよう。" }
+    ]
+  },
+  "idle": [
+    { "speaker": "father", "text": "今日もベランダの様子を見てみよう。" }
+  ]
+}

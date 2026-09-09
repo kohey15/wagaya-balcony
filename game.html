@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>わが家のベランダ | プレイ中</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <div class="app-frame">
+    <div class="app-shell" id="appShell">
+
+      <header class="hud">
+        <div class="hud-day">DAY <span id="dayNum">1</span></div>
+        <div class="hud-jishin">
+          <div class="jishin-label">じしん <span id="jishinTitle"></span></div>
+          <div class="jishin-bar"><div class="jishin-fill" id="jishinFill"></div></div>
+        </div>
+        <button id="menuBtn" class="icon-btn" aria-label="メニューを開く">⋮</button>
+      </header>
+
+      <div class="menu-panel hidden" id="menuPanel">
+        <button id="resetBtn" class="menu-item">はじめから</button>
+        <a class="menu-item" href="plants.html">植物図鑑</a>
+        <a class="menu-item" href="about.html">このゲームについて</a>
+        <a class="menu-item" href="index.html">タイトルへもどる</a>
+      </div>
+
+      <main class="stage" id="stage">
+        <div class="bg-layer" id="bgLayer"></div>
+        <div class="char-layer">
+          <div class="char char-father" id="charFather"></div>
+          <div class="char char-daughter" id="charDaughter"></div>
+        </div>
+        <div class="plant-layer" id="plantLayer"></div>
+      </main>
+
+      <div class="dialogue-box" id="dialogueBox">
+        <div class="dialogue-speaker" id="dialogueSpeaker"></div>
+        <div class="dialogue-text" id="dialogueText"></div>
+        <div class="dialogue-next" id="dialogueNext">▼ タップ</div>
+      </div>
+
+      <div class="action-bar" id="actionBar">
+        <button id="harvestBtn" class="action-btn action-harvest hidden">🌿 収穫する</button>
+        <div class="care-row">
+          <button id="waterBtn" class="action-btn action-care">💧 水をあげる</button>
+          <button id="fertilizerBtn" class="action-btn action-care">🌱 肥料をあげる</button>
+          <button id="watchBtn" class="action-btn action-care">👀 見守る</button>
+        </div>
+        <button id="nextDayBtn" class="action-btn action-nextday">🌅 翌日へ</button>
+      </div>
+
+    </div>
+
+    <div class="load-error hidden" id="loadError">
+      <p>読み込み中にエラーが発生しました。ページを再読み込みしてください。</p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    // ゲーム起動処理。失敗してもエラー表示に留め、白画面にしない。
+    (function () {
+      "use strict";
+      var params = new URLSearchParams(window.location.search);
+      var forceNew = params.get("new") === "1";
+
+      window.Game.init(forceNew)
+        .then(function () {
+          window.UI.init();
+        })
+        .catch(function (err) {
+          console.error("[game.html] 初期化に失敗しました", err);
+          document.getElementById("loadError").classList.remove("hidden");
+        });
+    })();
+  </script>
+</body>
+</html>

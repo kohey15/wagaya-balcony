@@ -1,0 +1,12 @@
+{
+  "mizuna": {
+    "id": "mizuna",
+    "name": "水菜",
+    "slotId": "slot01",
+    "description": "シャキシャキとした歯ざわりが人気の葉野菜。すでに大きく育った株なので、届いたその日から収穫できます。",
+    "image": "assets/plants/mizuna.webp",
+    "emojiFallback": "🥬",
+    "productUrl": "https://example.com/placeholder-product/mizuna",
+    "productNote": "※ 商品ページは準備中です（プレースホルダー）"
+  }
+}

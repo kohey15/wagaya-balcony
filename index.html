@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>わが家のベランダ</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+  .title-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 32px 20px;
+    text-align: center;
+    gap: 28px;
+  }
+  .title-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--color-text-strong);
+  }
+  .title-logo small {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-text-sub);
+    margin-top: 6px;
+  }
+  .title-emoji {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+  .title-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 300px;
+  }
+  .save-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-sub);
+    min-height: 1.2em;
+  }
+  .title-links {
+    display: flex;
+    gap: 18px;
+    font-size: 0.85rem;
+  }
+  .title-links a {
+    color: var(--color-text-sub);
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="app-frame">
+    <div class="title-screen">
+      <div class="title-emoji" aria-hidden="true">🪴</div>
+      <h1 class="title-logo">わが家のベランダ
+        <small>収穫からはじまる、親子の毎日</small>
+      </h1>
+
+      <div class="title-buttons">
+        <button id="continueBtn" class="btn btn-primary btn-large">つづきから</button>
+        <button id="newBtn" class="btn btn-secondary btn-large">はじめから</button>
+      </div>
+      <p class="save-hint" id="saveHint"></p>
+
+      <nav class="title-links">
+        <a href="about.html">このゲームについて</a>
+        <a href="plants.html">植物図鑑</a>
+      </nav>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

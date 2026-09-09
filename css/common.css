@@ -1,0 +1,148 @@
+/**
+ * common.css
+ * サイト全体で共有するリセット・変数・基本コンポーネント。
+ * スマホ縦画面（360〜430px）優先、PCでは中央寄せ最大480px。
+ */
+
+:root {
+  --color-bg: #eef5e6;
+  --color-surface: #ffffff;
+  --color-text-strong: #2f3b28;
+  --color-text-sub: #6b7566;
+  --color-primary: #5b9a4c;
+  --color-primary-dark: #457a39;
+  --color-secondary: #f4b942;
+  --color-accent: #6fb1d6;
+  --color-border: #dbe6d3;
+  --safe-max-width: 480px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  background: var(--color-bg);
+  color: var(--color-text-strong);
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* PCでは中央にスマホ幅で表示する */
+.app-frame {
+  max-width: var(--safe-max-width);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- 共通ボタン ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.06s ease, opacity 0.15s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-large {
+  min-height: 52px;
+  font-size: 1.05rem;
+  padding: 12px 20px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 3px 0 var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  border: 2px solid var(--color-primary);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---- 画像プレースホルダー共通 ---- */
+.sprite {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.sprite img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* 画像が無い/読み込めない場合は絵文字で代替表示（壊れたアイコンを出さない） */
+.sprite.img-error::before {
+  content: attr(data-emoji);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: min(48px, 60%);
+}
+
+/* シンプルな下部固定シートのメニュー */
+.menu-panel {
+  position: absolute;
+  top: 52px;
+  right: 12px;
+  z-index: 40;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 160px;
+}
+.menu-item {
+  display: block;
+  text-align: left;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--color-text-strong);
+}
+.menu-item:last-child {
+  border-bottom: none;
+}
