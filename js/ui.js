@@ -30,6 +30,19 @@ window.UI = (function () {
   }
 
   /**
+   * CSS背景画像を「読み込めた場合だけ」差し替えるヘルパー。
+   * 失敗しても何もしない＝要素にあらかじめ設定したCSSのグラデーションが
+   * そのままプレースホルダーとして残る（壊れたアイコンを出さないため）。
+   */
+  function trySetBackgroundImage(el, url) {
+    var probe = new Image();
+    probe.onload = function () {
+      el.style.backgroundImage = "url('" + url + "')";
+    };
+    probe.src = url;
+  }
+
+  /**
    * 重なり順を決めるz-index。植物は常にキャラクターより手前になるよう、
    * 帯（レンジ）を分けたうえで、それぞれの中ではランダムにする。
    */
@@ -71,6 +84,8 @@ window.UI = (function () {
     el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
     el.waterImg.src = window.CONFIG.WATER_BUTTON_IMAGE;
     el.plantSelectHeroImg.src = window.CONFIG.PLANT_SELECT_IMAGE;
+    // 園芸店の背景写真が用意できていれば差し替える（無ければCSSのグラデーションのまま）
+    trySetBackgroundImage(el.plantSelectOverlay, window.CONFIG.PLANT_SELECT_BACKGROUND);
     // キャラクター同士の重なり順はランダム。ただし鉢は常にキャラクターより手前になる
     el.charMother.style.zIndex = randomZIndex("char");
     el.charFamily.style.zIndex = randomZIndex("char");

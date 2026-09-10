@@ -253,7 +253,8 @@
   background: linear-gradient(135deg, var(--color-border), var(--color-bg));
 }
 
-/* ---- 鉢選択オーバーレイ（新しい植物を迎えるシーン） ----
+/* ---- 植物選択シーン（「園芸店に買い物に行く」という独立したシーン） ----
+   ベランダのオーバーレイではなく、専用の背景を持つ別シーンとして表示する。
    縦長画面ではイラストを上、選択ウインドウを下に。
    横長画面（.stage.scene-cutscene と同じ横向き判定）ではイラストを左、
    選択ウインドウを右に、それぞれ重ならずに並べる。 */
@@ -262,7 +263,10 @@
   inset: 0;
   /* 鉢のz-index（最大299程度）より確実に高くし、常に最前面に表示する */
   z-index: 1000;
-  background: rgba(30, 40, 25, 0.55);
+  /* 園芸店の写真が用意できるまでは、木の棚と緑を思わせるグラデーションを仮の背景にする */
+  background-image: linear-gradient(165deg, #e8dcc0 0%, #cdd9a8 55%, #9fbf8a 100%);
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
 }
@@ -293,6 +297,7 @@
   background: var(--color-surface);
   border-radius: 20px 20px 0 0;
   padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  box-shadow: 0 -6px 20px rgba(30, 40, 25, 0.18);
 }
 .plant-select-title {
   margin: 0 0 4px;

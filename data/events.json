@@ -123,8 +123,8 @@
     ]
   },
   "potUnlockAnnounce": [
-    { "speaker": "father", "text": "そういえば、新しい鉢を迎えられるようになったみたいだよ。" },
-    { "speaker": "daughter", "text": "ほんとに！？ 見てみたい！" }
+    { "speaker": "father", "text": "そういえば、新しい鉢を迎えられるようになったみたいだよ。園芸店に見に行ってみようか。" },
+    { "speaker": "daughter", "text": "行く行く！どんな鉢があるかな！" }
   ],
   "newPotWelcome": [
     { "speaker": "daughter", "text": "{name}が来た！うれしいな！" },

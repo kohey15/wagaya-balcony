@@ -95,6 +95,7 @@
 - [x] 栽培シーンの植物は画面下部に集中して配置し、キャラクターイラストはさらに上寄りに調整（Ver0.2）
 - [x] 収穫物の解説シーンは毎ターン必ず発生するように変更（従来はランダム35%）。解説を聞いた植物は記録され、植物図鑑の「本物の鉢を見てみる」リンクはその植物を解説で聞くまでロックされる仕組みに（Ver0.2）
 - [x] エンディングシーンの発生条件を「じしんが最大値」から「全7種類の植物をコンプリート（ゲームクリア）」に変更（Ver0.2）
+- [x] 植物選択シーンを、ベランダに重なる半透明オーバーレイではなく「園芸店に買い物に行く」独立したシーンに変更。専用の背景（`PLANT_SELECT_BACKGROUND`）を持ち、写真が未配置のうちはCSSグラデーションが仮背景として表示される（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
@@ -136,7 +137,8 @@
 | 水やりボタンの画像 | `assets/ui/mizuyari.webp` | `js/config.js` の `WATER_BUTTON_IMAGE` |
 | 収穫物の解説シーンの背景 | `assets/backgrounds/kaisetu.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.nutrition` |
 | エンディングシーンの背景 | `assets/backgrounds/syokuji.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.ending` |
-| 植物選択シーンのイラスト | `assets/characters/select_family.webp` | `js/config.js` の `PLANT_SELECT_IMAGE` |
+| 植物選択シーンのイラスト（父娘） | `assets/characters/select_family.webp` | `js/config.js` の `PLANT_SELECT_IMAGE` |
+| 植物選択シーンの背景（園芸店、**未配置・プレースホルダー中**） | `assets/backgrounds/gardenshop.jpg` | `js/config.js` の `PLANT_SELECT_BACKGROUND` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |
 | いちごの画像（透過） | `assets/plants/ichigo.webp` | `data/plants.json` の `ichigo.image` |
@@ -146,6 +148,7 @@
 | パセリの画像（透過） | `assets/plants/parsley.webp` | `data/plants.json` の `parsley.image` |
 
 画像が無い間はCSSだけの控えめなプレースホルダー（淡いグラデーションの箱）が表示されるため、ファイルを未配置のまま公開しても壊れたアイコンは表示されません。
+植物選択シーンの背景（`PLANT_SELECT_BACKGROUND`）は、`<img>`タグではなくCSS背景画像なので、`js/ui.js`の`trySetBackgroundImage()`が`new Image()`で事前読み込みを試み、成功した場合だけ差し替える方式にしている（失敗時はCSSのグラデーションのまま何も起きない）。
 
 ## 鉢の追加（じしん連動の解放）の仕組み
 

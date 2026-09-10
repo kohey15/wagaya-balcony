@@ -42,10 +42,14 @@ window.CONFIG = (function () {
   var WATER_BUTTON_IMAGE = "assets/ui/mizuyari.webp";
   // 鉢選択シーンで、選択ウインドウと重ならない側に添える父と娘のイラスト
   var PLANT_SELECT_IMAGE = "assets/characters/select_family.webp";
+  // 植物選択シーンの背景（園芸店）。画像が未配置のうちはCSSのグラデーション
+  // プレースホルダーがそのまま背景として見えるだけで、壊れたアイコンは出ない。
+  // ここに実画像（例: assets/backgrounds/gardenshop.jpg）を用意すれば自動的に差し替わる。
+  var PLANT_SELECT_BACKGROUND = "assets/backgrounds/gardenshop.jpg";
 
   // ゲーム全体は5つの基本シーンで構成される：
   // 1) オープニング（index.html） 2) 栽培シーン（ベランダ・通常時）
-  // 3) 次の植物選択シーン（じしんが一定を超えたら） 4) 収穫物の解説シーン（毎ターン）
+  // 3) 次の植物選択シーン（園芸店。じしんが一定を超えたら） 4) 収穫物の解説シーン（毎ターン）
   // 5) エンディングシーン（全7種類の植物をコンプリート＝ゲームクリアで1回だけ）
   // ここでは 3〜5 の会話シーン中に切り替えるベランダ背景を定義する。
   var SCENE_BACKGROUNDS = {
@@ -63,6 +67,7 @@ window.CONFIG = (function () {
     FERTILIZER_BUTTON_IMAGE: FERTILIZER_BUTTON_IMAGE,
     WATER_BUTTON_IMAGE: WATER_BUTTON_IMAGE,
     PLANT_SELECT_IMAGE: PLANT_SELECT_IMAGE,
+    PLANT_SELECT_BACKGROUND: PLANT_SELECT_BACKGROUND,
     SCENE_BACKGROUNDS: SCENE_BACKGROUNDS
   };
 })();
