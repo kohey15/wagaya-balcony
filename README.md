@@ -96,6 +96,9 @@
 - [x] 収穫物の解説シーンは毎ターン必ず発生するように変更（従来はランダム35%）。解説を聞いた植物は記録され、植物図鑑の「本物の鉢を見てみる」リンクはその植物を解説で聞くまでロックされる仕組みに（Ver0.2）
 - [x] エンディングシーンの発生条件を「じしんが最大値」から「全7種類の植物をコンプリート（ゲームクリア）」に変更（Ver0.2）
 - [x] 植物選択シーンを、ベランダに重なる半透明オーバーレイではなく「園芸店に買い物に行く」独立したシーンに変更。専用の背景（`PLANT_SELECT_BACKGROUND`）を持ち、写真が未配置のうちはCSSグラデーションが仮背景として表示される（Ver0.2）
+- [x] 園芸店の店主から植物の説明を聞く父娘のイラストを植物選択シーンに反映（Ver0.2）
+- [x] 画像アセットに`?v=`のバージョンクエリを付与する仕組み（`js/config.js`の`assetUrl()`）を追加し、画像を差し替えてもブラウザキャッシュで古い画像が残らないよう修正。CSS背景画像は`js/ui.js`の`trySetBackgroundImage()`で事前読み込みしてから差し替える方式に統一（Ver0.2）
+- [x] `index.html`のタイトル画面初期化が`DOMContentLoaded`イベント待ちだと環境によって発火せず初期化が走らないことがある不具合を修正。他ページと同様、body末尾のスクリプトとして直接実行する方式に統一し、`<script>`タグ自体にも`?v=`を付与（Ver0.2）
 
 ## 未実装機能（Ver 0.2以降に持ち越し）
 
@@ -137,7 +140,7 @@
 | 水やりボタンの画像 | `assets/ui/mizuyari.webp` | `js/config.js` の `WATER_BUTTON_IMAGE` |
 | 収穫物の解説シーンの背景 | `assets/backgrounds/kaisetu.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.nutrition` |
 | エンディングシーンの背景 | `assets/backgrounds/syokuji.jpg` | `js/config.js` の `SCENE_BACKGROUNDS.ending` |
-| 植物選択シーンのイラスト（父娘） | `assets/characters/select_family.webp` | `js/config.js` の `PLANT_SELECT_IMAGE` |
+| 植物選択シーンのイラスト（園芸店の店主から説明を聞く父娘） | `assets/characters/select_family.webp` | `js/config.js` の `PLANT_SELECT_IMAGE` |
 | 植物選択シーンの背景（園芸店、**未配置・プレースホルダー中**） | `assets/backgrounds/gardenshop.jpg` | `js/config.js` の `PLANT_SELECT_BACKGROUND` |
 | 水菜の画像（透過） | `assets/plants/mizuna.webp` | `data/plants.json` の `mizuna.image` |
 | ほうれん草の画像（透過） | `assets/plants/hourensou.webp` | `data/plants.json` の `hourensou.image` |

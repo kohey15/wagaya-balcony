@@ -77,15 +77,15 @@ window.UI = (function () {
   }
 
   function renderStaticLayers() {
-    el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.BACKGROUND_ASSET + "')";
+    el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.assetUrl(window.CONFIG.BACKGROUND_ASSET) + "')";
     var ch = window.CONFIG.CHARACTER_ASSETS;
-    el.charMother.innerHTML = spriteHtml(ch.mother.image, "母", "char-sprite");
-    el.charFamily.innerHTML = spriteHtml(ch.family.image, "しゃがんでベランダを眺める父と娘", "char-sprite");
-    el.fertilizerImg.src = window.CONFIG.FERTILIZER_BUTTON_IMAGE;
-    el.waterImg.src = window.CONFIG.WATER_BUTTON_IMAGE;
-    el.plantSelectHeroImg.src = window.CONFIG.PLANT_SELECT_IMAGE;
+    el.charMother.innerHTML = spriteHtml(window.CONFIG.assetUrl(ch.mother.image), "母", "char-sprite");
+    el.charFamily.innerHTML = spriteHtml(window.CONFIG.assetUrl(ch.family.image), "しゃがんでベランダを眺める父と娘", "char-sprite");
+    el.fertilizerImg.src = window.CONFIG.assetUrl(window.CONFIG.FERTILIZER_BUTTON_IMAGE);
+    el.waterImg.src = window.CONFIG.assetUrl(window.CONFIG.WATER_BUTTON_IMAGE);
+    el.plantSelectHeroImg.src = window.CONFIG.assetUrl(window.CONFIG.PLANT_SELECT_IMAGE);
     // 園芸店の背景写真が用意できていれば差し替える（無ければCSSのグラデーションのまま）
-    trySetBackgroundImage(el.plantSelectOverlay, window.CONFIG.PLANT_SELECT_BACKGROUND);
+    trySetBackgroundImage(el.plantSelectOverlay, window.CONFIG.assetUrl(window.CONFIG.PLANT_SELECT_BACKGROUND));
     // キャラクター同士の重なり順はランダム。ただし鉢は常にキャラクターより手前になる
     el.charMother.style.zIndex = randomZIndex("char");
     el.charFamily.style.zIndex = randomZIndex("char");
@@ -110,7 +110,7 @@ window.UI = (function () {
       // 鉢は常にキャラクターより手前。鉢同士の重なり順はランダムにする
       wrap.style.zIndex = randomZIndex("plant");
 
-      wrap.innerHTML = spriteHtml(plantData.image, plantData.name, "plant-sprite");
+      wrap.innerHTML = spriteHtml(window.CONFIG.assetUrl(plantData.image), plantData.name, "plant-sprite");
       wrap.title = plantData.name;
 
       el.plantLayer.appendChild(wrap);
@@ -180,7 +180,7 @@ window.UI = (function () {
     if (scene === currentScene) return;
     currentScene = scene;
     var url = (window.CONFIG.SCENE_BACKGROUNDS && window.CONFIG.SCENE_BACKGROUNDS[scene]) || window.CONFIG.BACKGROUND_ASSET;
-    el.bgLayer.style.backgroundImage = "url('" + url + "')";
+    el.bgLayer.style.backgroundImage = "url('" + window.CONFIG.assetUrl(url) + "')";
     el.stage.classList.toggle("scene-cutscene", scene !== "stage");
   }
 
@@ -249,7 +249,7 @@ window.UI = (function () {
       .map(function (p) {
         return (
           '<button type="button" class="plant-select-card" data-plant-id="' + p.id + '">' +
-          spriteHtml(p.image, p.name, p.emojiFallback, "plant-select-thumb") +
+          spriteHtml(window.CONFIG.assetUrl(p.image), p.name, "plant-select-thumb") +
           '<span class="plant-select-info">' +
           '<span class="plant-select-name">' + p.name + "</span>" +
           '<span class="plant-select-desc">' + p.description + "</span>" +

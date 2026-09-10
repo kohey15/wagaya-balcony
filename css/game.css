@@ -272,19 +272,23 @@
 }
 .plant-select-hero {
   flex: 0 0 auto;
-  height: 32%;
+  height: 36%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 12px;
   pointer-events: none;
 }
 .plant-select-hero img {
   height: 100%;
   width: auto;
-  max-width: 85%;
+  max-width: 92%;
   object-fit: contain;
   display: block;
+  /* 白背景の一枚絵なので、写真のように角丸と影を付けて馴染ませる */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(30, 40, 25, 0.25);
 }
 .plant-select-hero.img-error {
   background: transparent;

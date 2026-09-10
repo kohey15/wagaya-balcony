@@ -84,8 +84,8 @@
     </div>
   </div>
 
-  <script src="js/config.js"></script>
-  <script src="js/save.js"></script>
+  <script src="js/config.js?v=2"></script>
+  <script src="js/save.js?v=2"></script>
   <script>
     (function () {
       "use strict";
@@ -129,7 +129,7 @@
                   '<div class="tip-card ' + (hasIt ? "" : "locked") + '">' +
                   '<div class="tip-thumb sprite">' +
                   (hasIt
-                    ? '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">'
+                    ? '<img src="' + window.CONFIG.assetUrl(p.image) + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">'
                     : "") +
                   "</div>" +
                   '<div class="tip-info">' +
@@ -143,7 +143,7 @@
               return (
                 '<div class="tip-card">' +
                 '<div class="tip-thumb sprite">' +
-                '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
+                '<img src="' + window.CONFIG.assetUrl(p.image) + '" alt="' + p.name + '" onerror="this.parentElement.classList.add(\'img-error\');this.remove();">' +
                 "</div>" +
                 '<div class="tip-info">' +
                 "<h2>" + p.name + "</h2>" +

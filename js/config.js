@@ -8,6 +8,14 @@ window.CONFIG = (function () {
 
   var SAVE_KEY = "wagaya_balcony_save_v1";
 
+  // 画像アセットを差し替えたときに、ブラウザの古いキャッシュが残らないようにする
+  // ためのバージョン番号。assets/ 以下の画像ファイルの中身を更新したら、この値を
+  // 上げること（CSSの ?v= と同じ考え方）。
+  var ASSET_VERSION = "2";
+  function assetUrl(path) {
+    return path + "?v=" + ASSET_VERSION;
+  }
+
   var DATA_PATHS = {
     plants: "data/plants.json",
     events: "data/events.json",
@@ -59,6 +67,8 @@ window.CONFIG = (function () {
 
   return {
     SAVE_KEY: SAVE_KEY,
+    ASSET_VERSION: ASSET_VERSION,
+    assetUrl: assetUrl,
     DATA_PATHS: DATA_PATHS,
     SLOT_POSITIONS: SLOT_POSITIONS,
     CHARACTER_ASSETS: CHARACTER_ASSETS,
